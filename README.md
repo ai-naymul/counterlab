@@ -2,7 +2,11 @@
 
 **Red-team your experiment before you run it.**
 
+[![tests](https://github.com/ai-naymul/counterlab/actions/workflows/tests.yml/badge.svg)](https://github.com/ai-naymul/counterlab/actions/workflows/tests.yml)
+
 **Live: [counterlab.onrender.com](https://counterlab.onrender.com)** · Built for [STEMist Hacks IV](https://stemist-hacks-iv.devpost.com/)
+
+**Same app with the language model switched off: [counterlab-rulesonly.onrender.com](https://counterlab-rulesonly.onrender.com)** — deployed with no API key, so you can check the deterministic claim below yourself rather than taking my word for it.
 
 ---
 
@@ -57,6 +61,8 @@ The consequence: turn the API key off and CounterLab still catches the pendulum 
 $ GEMINI_API_KEY= pytest -q
 95 passed in 0.35s
 ```
+
+That runs on every push in [GitHub Actions](https://github.com/ai-naymul/counterlab/actions/workflows/tests.yml) with no credentials in the environment, so the badge above is the claim being checked in public rather than asserted here. There is also a second deployment, [counterlab-rulesonly.onrender.com](https://counterlab-rulesonly.onrender.com), running the same commit with no API key at all. Paste the pendulum case into it and it still finds the confound.
 
 ## Try it
 
