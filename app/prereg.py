@@ -7,8 +7,22 @@ against talking yourself into a conclusion afterwards.
 
 from __future__ import annotations
 
+import re
+
 from .models import ExperimentAudit, PreRegCard
 from .rules import MIN_TRIALS
+
+# The model tends to answer the prompt "complete this sentence" by repeating the
+# stem. Strip it so the card doesn't read "I will reject my hypothesis if I will
+# reject my hypothesis if ...".
+_STEM = re.compile(r"^\s*i\s+will\s+reject\s+my\s+hypothesis\s+if\s*,?\s*", re.IGNORECASE)
+
+_TRIALS_IN_TEXT = re.compile(r"\b(\d{1,2})\s*(?:trials?|repetitions?|repeats?|runs?|times)\b", re.IGNORECASE)
+
+
+def _strip_stem(text: str) -> str:
+    out = _STEM.sub("", text).strip()
+    return (out[0].lower() + out[1:]) if out else out
 
 
 def build(
@@ -31,6 +45,16 @@ def build(
 
     reps = audit.planned_repetitions if (audit.planned_repetitions or 0) > 0 else None
     planned = reps if reps and reps >= MIN_TRIALS else MIN_TRIALS
+
+    # If the model recommended a trial count in its stopping rule, adopt it - a card
+    # that says "3 trials" above a rule that says "stop after 5" is worse than either.
+    if stopping_rule:
+        m = _TRIALS_IN_TEXT.search(stopping_rule)
+        if m and MIN_TRIALS <= int(m.group(1)) <= 50:
+            planned = int(m.group(1))
+
+    if rejection_condition:
+        rejection_condition = _strip_stem(rejection_condition)
 
     return PreRegCard(
         measurement_plan=measurement,

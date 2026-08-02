@@ -1,0 +1,76 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: CounterLab
+      - generic [ref=e6]: 🧪
+      - generic [ref=e7]: full
+    - heading "Red-team your experiment before you run it." [level=1] [ref=e8]
+    - paragraph [ref=e9]: Most science projects don't fail because the student measured badly. They fail because the plan couldn't have answered the question in the first place. Paste yours and find out now, not at the science fair.
+  - generic [ref=e10]:
+    - paragraph [ref=e11]: "Try one of these — they load into the form below:"
+    - generic [ref=e12]:
+      - button "Pendulum the classic confound" [active] [ref=e13] [cursor=pointer]:
+        - text: Pendulum
+        - generic [ref=e14]: the classic confound
+      - button "Water filter safety stop" [ref=e15] [cursor=pointer]:
+        - text: Water filter
+        - generic [ref=e16]: safety stop
+      - button "Injection test prompt injection" [ref=e17] [cursor=pointer]:
+        - text: Injection test
+        - generic [ref=e18]: prompt injection
+      - button "Sound plan should PASS" [ref=e19] [cursor=pointer]:
+        - text: Sound plan
+        - generic [ref=e20]: should PASS
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]: Your hypothesis — what do you think will happen?
+      - textbox "Your hypothesis — what do you think will happen?" [ref=e24]:
+        - /placeholder: A heavier pendulum bob swings faster.
+        - text: A heavier pendulum bob swings faster.
+    - generic [ref=e25]:
+      - generic [ref=e26]: Your procedure — exactly what will you do?
+      - textbox "Your procedure — exactly what will you do?" [ref=e27]:
+        - /placeholder: "Write it as you'd actually do it. Include the numbers: how much of what, how many times."
+        - text: I will compare two pendulums. The first has a 50 g bob on a 30 cm string. The second has a 100 g bob on a 40 cm string. I will pull each one back and let it go, and time one swing with my phone stopwatch for each pendulum. Whichever finishes its swing in less time is the faster one.
+    - generic [ref=e28]:
+      - generic [ref=e29]: Materials you have — optional
+      - textbox "Materials you have — optional" [ref=e30]:
+        - /placeholder: String, two weights, a ruler, my phone.
+        - text: String, two fishing weights (50 g and 100 g), a phone stopwatch, a ruler, tape.
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Time
+        - combobox "Time" [ref=e34]:
+          - option "Not sure"
+          - option "Under an hour"
+          - option "A day" [selected]
+          - option "A week"
+          - option "A month or more"
+      - generic [ref=e35]:
+        - generic [ref=e36]: Budget
+        - combobox "Budget" [ref=e37]:
+          - option "Not sure"
+          - option "Nothing — only what I have"
+          - option "Under $10" [selected]
+          - option "Under $50"
+      - generic [ref=e38]:
+        - generic [ref=e39]: Level
+        - combobox "Level" [ref=e40]:
+          - option "Middle school"
+          - option "High school" [selected]
+          - option "Intro college"
+    - button "Break my experiment" [ref=e41] [cursor=pointer]
+  - contentinfo [ref=e42]:
+    - paragraph [ref=e43]:
+      - strong [ref=e44]: CounterLab checks the structure of your reasoning. It cannot check your science.
+      - text: Ask a teacher before you run anything.
+    - paragraph [ref=e45]:
+      - text: Your text is sent to Google's Gemini API for analysis. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=e46] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so please don't type your name, your school, or anything personal — this tool doesn't need it. CounterLab itself stores nothing."
+    - paragraph [ref=e47]:
+      - text: Built for STEMist Hacks IV ·
+      - link "API" [ref=e48] [cursor=pointer]:
+        - /url: /api
+      - text: · open source, MIT

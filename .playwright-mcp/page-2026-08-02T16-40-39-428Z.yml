@@ -1,0 +1,116 @@
+- generic [ref=f1e2]:
+  - link "← Check another experiment" [ref=f1e3] [cursor=pointer]:
+    - /url: /
+  - generic [ref=f1e4]:
+    - generic [ref=f1e5]: Fatal flaw found
+    - generic [ref=f1e6]: full
+    - generic [ref=f1e7]: confidence 100%
+  - generic [ref=f1e8]:
+    - heading "1 · Break" [level=2] [ref=f1e9]
+    - paragraph [ref=f1e10]: "You changed more than one thing at once: mass of the pendulum bob, length of the string."
+    - paragraph [ref=f1e11]:
+      - strong [ref=f1e12]: Why this makes your result uninterpretable.
+      - text: When two things differ between your setups, any difference you measure could have been caused by either one. There is no way to tell them apart afterwards, so the result cannot answer your question no matter how carefully you measure.
+    - generic [ref=f1e14]:
+      - generic [ref=f1e15]: structural check
+      - generic [ref=f1e16]: fatal
+    - generic [ref=f1e17]:
+      - generic [ref=f1e18]:
+        - generic [ref=f1e19]: You change
+        - generic [ref=f1e20]: mass of the pendulum bob
+      - generic [ref=f1e21]:
+        - generic [ref=f1e22]: You measure
+        - generic [ref=f1e23]: time for one swing (seconds)
+      - generic [ref=f1e24]:
+        - generic [ref=f1e25]: Actually differs between setups
+        - generic [ref=f1e26]: mass of the pendulum bob, length of the string ← should be one
+      - generic [ref=f1e27]:
+        - generic [ref=f1e28]: You hold constant
+        - generic [ref=f1e29]: nothing stated
+      - generic [ref=f1e30]:
+        - generic [ref=f1e31]: Trials per setup
+        - generic [ref=f1e32]: "1"
+  - generic [ref=f1e33]:
+    - heading "2 · Repair" [level=2] [ref=f1e34]
+    - paragraph [ref=f1e35]: The smallest changes that make your result mean something — cheapest first.
+    - list [ref=f1e36]:
+      - listitem [ref=f1e37]: Hold everything constant except the one thing you are testing, and change only that.
+      - listitem [ref=f1e38]: Run the comparison again with the other quantities matched exactly between setups.
+      - listitem [ref=f1e39]: If you want to test both, run two separate experiments rather than one combined one.
+      - listitem [ref=f1e40]: Use the same length of string for both tests to ensure you are only testing the effect of mass.
+      - listitem [ref=f1e41]: Time 10 full swings instead of just one, then divide the total time by 10 to get the average time for a single swing.
+      - listitem [ref=f1e42]: Use a consistent starting angle by marking a spot on your desk or wall to pull the bob back to each time.
+    - generic [ref=f1e43]:
+      - generic [ref=f1e44]: Cheapest way to prove yourself wrong
+      - text: Test two pendulums with the exact same mass but different string lengths to see if the length changes the time, which would show that length is a more important factor than mass.
+  - generic [ref=f1e45]:
+    - heading "3 · Commit" [level=2] [ref=f1e46]
+    - paragraph [ref=f1e47]:
+      - text: Fill this in
+      - strong [ref=f1e48]: before
+      - text: you collect any data. Deciding what counts as being wrong after you've seen the numbers is how honest people fool themselves.
+    - generic [ref=f1e49]:
+      - generic [ref=f1e50]: Measurement
+      - text: "Measure time for one swing in seconds, by: phone stopwatch."
+    - generic [ref=f1e51]:
+      - generic [ref=f1e52]: Repetitions
+      - text: 3 trials per condition
+    - generic [ref=f1e53]:
+      - generic [ref=f1e54]: Stopping rule
+      - text: I will stop collecting data after I have performed 5 trials for each mass and calculated the average for each.
+    - generic [ref=f1e55]:
+      - generic [ref=f1e56]: Analysis rule
+      - text: I will compare the average time per swing for each mass and see if the heavier bob consistently results in a lower time value.
+    - generic [ref=f1e57]: I will reject my hypothesis if I will reject my hypothesis if the 100g bob takes the same amount of time or more time to complete a swing compared to the 50g bob when the string length is kept constant.
+    - generic [ref=f1e58]:
+      - button "Copy card" [ref=f1e59] [cursor=pointer]
+      - button "Print" [ref=f1e60] [cursor=pointer]
+    - textbox [ref=f1e61]: "COUNTERLAB PRE-REGISTRATION CARD Written before any data was collected. ---------------------------------------------------- MEASUREMENT: Measure time for one swing in seconds, by: phone stopwatch. REPETITIONS: 3 trials per condition STOPPING RULE: I will stop collecting data after I have performed 5 trials for each mass and calculated the average for each. ANALYSIS RULE: I will compare the average time per swing for each mass and see if the heavier bob consistently results in a lower time value. I WILL REJECT MY HYPOTHESIS IF: I will reject my hypothesis if the 100g bob takes the same amount of time or more time to complete a swing compared to the 50g bob when the string length is kept constant. ---------------------------------------------------- Signed: ______________________ Date: ____________"
+  - generic [ref=f1e62]:
+    - heading "Deep audit — optional" [level=2] [ref=f1e63]
+    - paragraph [ref=f1e64]: Three more passes over the same plan, each attacking it from a different angle — hidden confounds, whether your instrument can even see the effect, and whether you can actually finish it. Runs in parallel, takes a few seconds.
+    - button "Run deep audit" [ref=f1e66] [cursor=pointer]
+  - group [ref=f1e67]:
+    - generic "4 other things worth fixing" [ref=f1e68] [cursor=pointer]
+    - generic [ref=f1e69]:
+      - generic [ref=f1e70]: You only planned 1 trial(s) per setup.
+      - generic [ref=f1e71]: Every measurement wobbles a little. With fewer than three trials you cannot tell whether a difference you see is real or just the wobble, so you cannot honestly claim the change caused it.
+      - generic [ref=f1e72]:
+        - generic [ref=f1e73]: structural check
+        - generic [ref=f1e74]: major
+    - generic [ref=f1e75]:
+      - generic [ref=f1e76]: Nothing is being deliberately held constant.
+      - generic [ref=f1e77]: If you have not decided what to keep the same, differences can creep in without you noticing and quietly become the real cause of your result.
+      - generic [ref=f1e78]:
+        - generic [ref=f1e79]: structural check
+        - generic [ref=f1e80]: major
+    - generic [ref=f1e81]:
+      - generic [ref=f1e82]: Your measurement method is not precise enough to capture the difference in time.
+      - generic [ref=f1e83]: Human reaction time when starting and stopping a stopwatch is often longer than the actual difference in swing time between two pendulums, making your data unreliable.
+      - generic [ref=f1e84]:
+        - generic [ref=f1e85]: model analysis
+        - generic [ref=f1e86]: major
+    - generic [ref=f1e87]:
+      - generic [ref=f1e88]: You are only measuring a single swing.
+      - generic [ref=f1e89]: Measuring one swing makes any small error in your timing much larger, which will hide the true results.
+      - generic [ref=f1e90]:
+        - generic [ref=f1e91]: model analysis
+        - generic [ref=f1e92]: major
+  - group [ref=f1e93]:
+    - generic "Other things that could explain your result" [ref=f1e94] [cursor=pointer]
+  - group [ref=f1e95]:
+    - generic "What CounterLab assumed · gemini-3.1-flash-lite + gemini-3.1-flash-lite" [ref=f1e96] [cursor=pointer]
+  - contentinfo [ref=f1e97]:
+    - paragraph [ref=f1e98]:
+      - strong [ref=f1e99]: CounterLab checks the structure of your reasoning. It cannot check your science.
+      - text: Ask a teacher before you run anything.
+    - paragraph [ref=f1e100]:
+      - text: Your text is sent to Google's Gemini API for analysis. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=f1e101] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so please don't type your name, your school, or anything personal — this tool doesn't need it. CounterLab itself stores nothing."
+    - paragraph [ref=f1e102]:
+      - text: Built for STEMist Hacks IV ·
+      - link "API" [ref=f1e103] [cursor=pointer]:
+        - /url: /api
+      - text: · open source, MIT
