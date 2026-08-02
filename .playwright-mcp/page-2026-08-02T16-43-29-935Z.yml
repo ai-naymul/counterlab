@@ -1,0 +1,186 @@
+- generic [ref=f3e2]:
+  - link "← Check another experiment" [ref=f3e3] [cursor=pointer]:
+    - /url: /
+  - generic [ref=f3e4]:
+    - generic [ref=f3e5]: Fatal flaw found
+    - generic [ref=f3e6]: full
+    - generic [ref=f3e7]: confidence 100%
+  - generic [ref=f3e8]:
+    - heading "1 · Break" [level=2] [ref=f3e9]
+    - paragraph [ref=f3e10]: "You changed more than one thing at once: mass of the pendulum bob, length of the string."
+    - paragraph [ref=f3e11]:
+      - strong [ref=f3e12]: Why this makes your result uninterpretable.
+      - text: When two things differ between your setups, any difference you measure could have been caused by either one. There is no way to tell them apart afterwards, so the result cannot answer your question no matter how carefully you measure.
+    - generic [ref=f3e14]:
+      - generic [ref=f3e15]: structural check
+      - generic [ref=f3e16]: fatal
+    - generic [ref=f3e17]:
+      - generic [ref=f3e18]:
+        - generic [ref=f3e19]: You change
+        - generic [ref=f3e20]: mass of the pendulum bob
+      - generic [ref=f3e21]:
+        - generic [ref=f3e22]: You measure
+        - generic [ref=f3e23]: time for one swing (seconds)
+      - generic [ref=f3e24]:
+        - generic [ref=f3e25]: Actually differs between setups
+        - generic [ref=f3e26]: mass of the pendulum bob, length of the string ← should be one
+      - generic [ref=f3e27]:
+        - generic [ref=f3e28]: You hold constant
+        - generic [ref=f3e29]: nothing stated
+      - generic [ref=f3e30]:
+        - generic [ref=f3e31]: Trials per setup
+        - generic [ref=f3e32]: "1"
+  - generic [ref=f3e33]:
+    - heading "2 · Repair" [level=2] [ref=f3e34]
+    - paragraph [ref=f3e35]: The smallest changes that make your result mean something — cheapest first.
+    - list [ref=f3e36]:
+      - listitem [ref=f3e37]: Hold everything constant except the one thing you are testing, and change only that.
+      - listitem [ref=f3e38]: Run the comparison again with the other quantities matched exactly between setups.
+      - listitem [ref=f3e39]: If you want to test both, run two separate experiments rather than one combined one.
+      - listitem [ref=f3e40]: Use the same length of string for both tests to ensure you are only testing the effect of mass.
+      - listitem [ref=f3e41]: Time 10 full swings instead of just one, then divide the total time by 10 to get the average time for a single swing.
+      - listitem [ref=f3e42]: Use a consistent starting angle by marking a spot on your desk or wall to pull the bob back to each time.
+    - generic [ref=f3e43]:
+      - generic [ref=f3e44]: Cheapest way to prove yourself wrong
+      - text: Test two pendulums with the exact same mass but different string lengths to see if the length changes the time, which would show that length is a more important factor than mass.
+  - generic [ref=f3e45]:
+    - heading "3 · Commit" [level=2] [ref=f3e46]
+    - paragraph [ref=f3e47]:
+      - text: Fill this in
+      - strong [ref=f3e48]: before
+      - text: you collect any data. Deciding what counts as being wrong after you've seen the numbers is how honest people fool themselves.
+    - generic [ref=f3e49]:
+      - generic [ref=f3e50]: Measurement
+      - text: "Measure time for one swing in seconds, by: phone stopwatch."
+    - generic [ref=f3e51]:
+      - generic [ref=f3e52]: Repetitions
+      - text: 5 trials per condition
+    - generic [ref=f3e53]:
+      - generic [ref=f3e54]: Stopping rule
+      - text: I will stop collecting data after I have performed 5 trials for each mass and calculated the average for each.
+    - generic [ref=f3e55]:
+      - generic [ref=f3e56]: Analysis rule
+      - text: I will compare the average time per swing for each mass and see if the heavier bob consistently results in a lower time value.
+    - generic [ref=f3e57]: I will reject my hypothesis if the 100g bob takes the same amount of time or more time to complete a swing compared to the 50g bob when the string length is kept constant.
+    - generic [ref=f3e58]:
+      - button "Copy card" [ref=f3e59] [cursor=pointer]
+      - button "Print" [ref=f3e60] [cursor=pointer]
+    - textbox [ref=f3e61]: "COUNTERLAB PRE-REGISTRATION CARD Written before any data was collected. ---------------------------------------------------- MEASUREMENT: Measure time for one swing in seconds, by: phone stopwatch. REPETITIONS: 5 trials per condition STOPPING RULE: I will stop collecting data after I have performed 5 trials for each mass and calculated the average for each. ANALYSIS RULE: I will compare the average time per swing for each mass and see if the heavier bob consistently results in a lower time value. I WILL REJECT MY HYPOTHESIS IF: the 100g bob takes the same amount of time or more time to complete a swing compared to the 50g bob when the string length is kept constant. ---------------------------------------------------- Signed: ______________________ Date: ____________"
+  - generic [ref=f3e62]:
+    - heading "Deep audit — optional" [level=2] [ref=f3e63]
+    - paragraph [ref=f3e64]: Three more passes over the same plan, each attacking it from a different angle — hidden confounds, whether your instrument can even see the effect, and whether you can actually finish it. Runs in parallel, takes a few seconds.
+    - button "Done" [disabled] [ref=f3e104] [cursor=pointer]
+    - generic [ref=f3e105]:
+      - generic [ref=f3e106]:
+        - generic [ref=f3e107]: Hidden confounds
+        - generic [ref=f3e108]: The experiment is fundamentally flawed because it varies two independent variables at once, making it impossible to isolate the effect of mass.
+        - generic [ref=f3e109]:
+          - generic [ref=f3e110]: "Confounding variable: String length"
+          - generic [ref=f3e111]: The student changed both the mass of the bob and the length of the string simultaneously. Since the period of a pendulum is dependent on its length, it is impossible to determine if the difference in speed is caused by the mass or the string length.
+          - generic [ref=f3e112]:
+            - generic [ref=f3e113]: model analysis
+            - generic [ref=f3e114]: fatal
+        - generic [ref=f3e115]:
+          - generic [ref=f3e116]: "Confounding variable: Measurement precision"
+          - generic [ref=f3e117]: Timing a single swing with a phone stopwatch introduces significant human reaction time error, which is likely larger than the actual difference in period, making the data unreliable.
+          - generic [ref=f3e118]:
+            - generic [ref=f3e119]: model analysis
+            - generic [ref=f3e120]: major
+      - generic [ref=f3e121]:
+        - generic [ref=f3e122]: Measurement validity
+        - generic [ref=f3e123]: The experiment fails to isolate the independent variable and uses an imprecise measurement method, rendering the results invalid.
+        - generic [ref=f3e124]:
+          - generic [ref=f3e125]: Confounding variables in experimental design
+          - generic [ref=f3e126]: The experiment varies both mass and string length simultaneously, making it impossible to isolate the effect of mass on the period of the pendulum.
+          - generic [ref=f3e127]:
+            - generic [ref=f3e128]: model analysis
+            - generic [ref=f3e129]: fatal
+        - generic [ref=f3e130]:
+          - generic [ref=f3e131]: Measurement precision of manual timing
+          - generic [ref=f3e132]: Using a phone stopwatch to time a single swing introduces significant human reaction time error, which is likely larger than the period differences being measured.
+          - generic [ref=f3e133]:
+            - generic [ref=f3e134]: model analysis
+            - generic [ref=f3e135]: major
+        - generic [ref=f3e136]:
+          - generic [ref=f3e137]: Lack of operational definition for 'faster'
+          - generic [ref=f3e138]: The term 'faster' is ambiguous; the experiment measures the period of a single oscillation, which is a proxy for frequency, but does not account for potential variations in release angle or amplitude.
+          - generic [ref=f3e139]:
+            - generic [ref=f3e140]: model analysis
+            - generic [ref=f3e141]: minor
+      - generic [ref=f3e142]:
+        - generic [ref=f3e143]: Can this actually be done
+        - generic [ref=f3e144]: The experiment is feasible to perform within the time and budget, but the methodology is scientifically invalid due to confounding variables.
+        - generic [ref=f3e145]:
+          - generic [ref=f3e146]: Flawed experimental design
+          - generic [ref=f3e147]: The student is changing two variables simultaneously (mass and string length), which makes it impossible to determine if the speed difference is caused by the weight or the length of the string.
+          - generic [ref=f3e148]:
+            - generic [ref=f3e149]: model analysis
+            - generic [ref=f3e150]: major
+        - generic [ref=f3e151]:
+          - generic [ref=f3e152]: Measurement precision issues
+          - generic [ref=f3e153]: Timing a single swing of a pendulum using a manual phone stopwatch is highly prone to human reaction time error, which will likely exceed the actual time difference between the two pendulums.
+          - generic [ref=f3e154]:
+            - generic [ref=f3e155]: model analysis
+            - generic [ref=f3e156]: minor
+      - generic [ref=f3e157]:
+        - generic [ref=f3e158]: Background reading
+        - link "Confounding inference, confounding is a form of systematic error (or bias) that can distort estimates of causal effects in observational studies. A confounder is traditionally — Wikipedia" [ref=f3e159] [cursor=pointer]:
+          - /url: https://en.wikipedia.org/wiki/Confounding
+          - generic [ref=f3e160]: Confounding
+          - generic [ref=f3e161]: inference, confounding is a form of systematic error (or bias) that can distort estimates of causal effects in observational studies. A confounder is traditionally — Wikipedia
+        - link "Controlling for a variable become confounders while they were not confounders before. In other cases, controlling for a non-confounding variable may cause underestimation of the true — Wikipedia" [ref=f3e162] [cursor=pointer]:
+          - /url: https://en.wikipedia.org/wiki/Controlling_for_a_variable
+          - generic [ref=f3e163]: Controlling for a variable
+          - generic [ref=f3e164]: become confounders while they were not confounders before. In other cases, controlling for a non-confounding variable may cause underestimation of the true — Wikipedia
+        - link "Propensity score matching receiving the treatment. PSM attempts to reduce the bias due to confounding variables that could be found in an estimate of the treatment effect obtained — Wikipedia" [ref=f3e165] [cursor=pointer]:
+          - /url: https://en.wikipedia.org/wiki/Propensity_score_matching
+          - generic [ref=f3e166]: Propensity score matching
+          - generic [ref=f3e167]: receiving the treatment. PSM attempts to reduce the bias due to confounding variables that could be found in an estimate of the treatment effect obtained — Wikipedia
+        - link "Scientific control minimize the influence of variables other than the independent variable under investigation, thereby reducing the risk of confounding. The use of controls — Wikipedia" [ref=f3e168] [cursor=pointer]:
+          - /url: https://en.wikipedia.org/wiki/Scientific_control
+          - generic [ref=f3e169]: Scientific control
+          - generic [ref=f3e170]: minimize the influence of variables other than the independent variable under investigation, thereby reducing the risk of confounding. The use of controls — Wikipedia
+  - group [ref=f3e67]:
+    - generic "4 other things worth fixing" [ref=f3e68] [cursor=pointer]
+    - generic [ref=f3e69]:
+      - generic [ref=f3e70]: You only planned 1 trial(s) per setup.
+      - generic [ref=f3e71]: Every measurement wobbles a little. With fewer than three trials you cannot tell whether a difference you see is real or just the wobble, so you cannot honestly claim the change caused it.
+      - generic [ref=f3e72]:
+        - generic [ref=f3e73]: structural check
+        - generic [ref=f3e74]: major
+    - generic [ref=f3e75]:
+      - generic [ref=f3e76]: Nothing is being deliberately held constant.
+      - generic [ref=f3e77]: If you have not decided what to keep the same, differences can creep in without you noticing and quietly become the real cause of your result.
+      - generic [ref=f3e78]:
+        - generic [ref=f3e79]: structural check
+        - generic [ref=f3e80]: major
+    - generic [ref=f3e81]:
+      - generic [ref=f3e82]: Your measurement method is not precise enough to capture the difference in time.
+      - generic [ref=f3e83]: Human reaction time when starting and stopping a stopwatch is often longer than the actual difference in swing time between two pendulums, making your data unreliable.
+      - generic [ref=f3e84]:
+        - generic [ref=f3e85]: model analysis
+        - generic [ref=f3e86]: major
+    - generic [ref=f3e87]:
+      - generic [ref=f3e88]: You are only measuring a single swing.
+      - generic [ref=f3e89]: Measuring one swing makes any small error in your timing much larger, which will hide the true results.
+      - generic [ref=f3e90]:
+        - generic [ref=f3e91]: model analysis
+        - generic [ref=f3e92]: major
+  - group [ref=f3e93]:
+    - generic "Other things that could explain your result" [ref=f3e94] [cursor=pointer]
+  - group [ref=f3e95]:
+    - generic "What CounterLab assumed · gemini-3.1-flash-lite + gemini-3.1-flash-lite" [ref=f3e96] [cursor=pointer]
+  - contentinfo [ref=f3e97]:
+    - paragraph [ref=f3e98]:
+      - strong [ref=f3e99]: CounterLab checks the structure of your reasoning. It cannot check your science.
+      - text: Ask a teacher before you run anything.
+    - paragraph [ref=f3e100]:
+      - text: Your text is sent to Google's Gemini API for analysis. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=f3e101] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so please don't type your name, your school, or anything personal — this tool doesn't need it. CounterLab itself stores nothing."
+    - paragraph [ref=f3e102]:
+      - text: Built for STEMist Hacks IV ·
+      - link "API" [ref=f3e103] [cursor=pointer]:
+        - /url: /api
+      - text: · open source, MIT
