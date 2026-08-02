@@ -15,7 +15,7 @@ from .rules import MIN_TRIALS
 # The model tends to answer the prompt "complete this sentence" by repeating the
 # stem. Strip it so the card doesn't read "I will reject my hypothesis if I will
 # reject my hypothesis if ...".
-_STEM = re.compile(r"^\s*i\s+will\s+reject\s+my\s+hypothesis\s+if\s*,?\s*", re.IGNORECASE)
+_STEM = re.compile(r"^\s*i\s+will\s+reject\s+my\s+hypothesis\s*,?\s*if\s*,?\s*", re.IGNORECASE)
 
 _TRIALS_IN_TEXT = re.compile(r"\b(\d{1,2})\s*(?:trials?|repetitions?|repeats?|runs?|times)\b", re.IGNORECASE)
 
