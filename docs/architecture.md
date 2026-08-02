@@ -1,4 +1,4 @@
-# CounterLab — architecture
+# CounterLab architecture
 
 ## Request path
 
@@ -17,7 +17,7 @@ flowchart TB
     G2 -->|any failure| H
 
     G2 --> RULES
-    H --> RULES["<b>rules.py — R1..R9</b><br/>structural predicates on typed fields<br/><i>no network imports, ever</i>"]
+    H --> RULES["<b>rules.py &mdash; R1..R9</b><br/>structural predicates on typed fields<br/><i>no network imports, ever</i>"]
 
     RULES --> M["merge.py<br/>rank · pick ONE fatal · set verdict<br/><i>deterministic rules outrank model</i>"]
     M --> PRE["prereg.py<br/>pre-registration card"]
@@ -51,13 +51,13 @@ Every finding rendered in the UI carries its `source` as a visible chip.
 
 ## Why the injection defence holds
 
-The verdict is a return value of `merge.build_response()`, computed from `ExperimentAudit`'s typed fields plus `run_rules()`. The model contributes *findings*, which can only ever be **added** to the list — it has no path to the verdict, to `pick_fatal`'s priority order, or to any deterministic rule's output.
+The verdict is a return value of `merge.build_response()`, computed from `ExperimentAudit`'s typed fields plus `run_rules()`. The model contributes *findings*, which can only ever be **added** to the list. It has no path to the verdict, to `pick_fatal`'s priority order, or to any deterministic rule's output.
 
-So the interesting test isn't "does the model resist the injection". It's `test_verdict_holds_even_if_the_model_is_fully_compromised` — a provider that returns *no problems at all* still yields `verdict == "fatal_flaw"` with `source == "deterministic"`.
+So the interesting test isn't "does the model resist the injection". It's `test_verdict_holds_even_if_the_model_is_fully_compromised`: a provider that returns *no problems at all* still yields `verdict == "fatal_flaw"` with `source == "deterministic"`.
 
 Layered on top, in order of how much they actually matter:
 
-1. Verdict computed from typed fields (structural — this is the one that works)
+1. Verdict computed from typed fields (structural; this is the one that works)
 2. `responseSchema` constrains output to declared fields (no free-text channel)
 3. Student text delimited as `<student_submission>` data, never in the system role
 4. `</student_submission>` forgery stripped by `_sanitise()`
@@ -84,6 +84,6 @@ Layered on top, in order of how much they actually matter:
 
 Single free Render web service, `uvicorn app.main:app`. No database, no auth, no session store, no build step.
 
-Python is pinned to 3.12.3 via **both** `PYTHON_VERSION` and `.python-version` — Render builds on 3.14 by default and ignores `runtime.txt`, which leaves `pydantic-core` with no wheel and a Rust build against a read-only cargo directory.
+Python is pinned to 3.12.3 via **both** `PYTHON_VERSION` and `.python-version`. Render builds on 3.14 by default and ignores `runtime.txt`, which leaves `pydantic-core` with no wheel and a Rust build against a read-only cargo directory.
 
 `render.yaml` declares the web service only. Render Workflows are not Blueprint-compatible, and in any case creating one returned HTTP 402 (payment required), so none is deployed. See the README for what that means for the prize track.
