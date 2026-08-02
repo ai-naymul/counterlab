@@ -33,6 +33,9 @@
   --shadow: 0 1px 0 rgba(20,40,60,.05), 0 6px 22px -14px rgba(20,40,60,.35);
 }
 
+/* Dark tokens live in one place and are applied by either the OS preference or
+   an explicit choice. The explicit choice must win in both directions, so the
+   attribute selectors come after the media query. */
 @media (prefers-color-scheme: dark) {
   :root {
     --paper: #0D1116;  --paper-2: #141A21;
@@ -45,6 +48,46 @@
     --shadow: 0 1px 0 rgba(0,0,0,.3), 0 8px 26px -16px rgba(0,0,0,.9);
   }
 }
+
+:root[data-theme="dark"] {
+  --paper: #0D1116;  --paper-2: #141A21;
+  --grid: rgba(150, 200, 230, .045); --grid-bold: rgba(150, 200, 230, .085);
+  --ink: #E9EFF2;   --ink-2: #A2B0BA;  --ink-3: #6E7E8A;  --rule: #263039;
+  --break: #FF5C86;  --repair: #E3A63C;  --commit: #35C4B6;
+  --pass: #3ECF8E;   --link: #77A9FF;
+  --break-wash: rgba(255,92,134,.10); --repair-wash: rgba(227,166,60,.10);
+  --commit-wash: rgba(53,196,182,.10);
+  --shadow: 0 1px 0 rgba(0,0,0,.3), 0 8px 26px -16px rgba(0,0,0,.9);
+}
+
+:root[data-theme="light"] {
+  --paper: #EFF2F1;  --paper-2: #FFFFFF;
+  --grid: rgba(24, 54, 74, .055); --grid-bold: rgba(24, 54, 74, .10);
+  --ink: #11161B;   --ink-2: #47555F;  --ink-3: #7E8C96;  --rule: #D3DBD9;
+  --break: #D81B54;  --repair: #A8720E;  --commit: #0B6E6C;
+  --pass: #16714A;   --link: #2050C8;
+  --break-wash: rgba(216,27,84,.07); --repair-wash: rgba(168,114,14,.07);
+  --commit-wash: rgba(11,110,108,.07);
+  --shadow: 0 1px 0 rgba(20,40,60,.05), 0 6px 22px -14px rgba(20,40,60,.35);
+}
+
+.theme {
+  background: none; border: 1px solid var(--rule); border-radius: 999px;
+  width: 30px; height: 30px; display: grid; place-items: center; cursor: pointer;
+  color: var(--ink-2); padding: 0; flex: none;
+  transition: border-color .14s, color .14s;
+}
+.theme:hover { border-color: var(--ink); color: var(--ink); }
+.theme svg { width: 15px; height: 15px; }
+.theme .moon { display: none; }
+:root[data-theme="dark"] .theme .sun,
+:root:not([data-theme="light"]) .theme .sun { display: block; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme .sun { display: none; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme .moon { display: block; } }
+:root[data-theme="dark"] .theme .sun { display: none; }
+:root[data-theme="dark"] .theme .moon { display: block; }
+:root[data-theme="light"] .theme .sun { display: block; }
+:root[data-theme="light"] .theme .moon { display: none; }
 
 * { box-sizing: border-box; }
 

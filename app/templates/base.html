@@ -14,11 +14,35 @@
 <body>
 <div class="wrap">
 
+<script>
+  // Applied before first paint so an explicit choice never flashes the other theme.
+  try { var t = localStorage.getItem('cl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+
 <header class="mast">
   <a class="logo" href="/">counter<i>lab</i></a>
   <span class="gap"></span>
   {% block masttick %}{% endblock %}
+  <button class="theme" id="theme" type="button" aria-label="Switch between light and dark">
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M19.1 4.9l-1.5 1.5M6.4 17.6l-1.5 1.5"/>
+    </svg>
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.3 8.3 0 1 0 20 14.5z"/>
+    </svg>
+  </button>
 </header>
+
+<script>
+  document.getElementById('theme').addEventListener('click', function () {
+    var root = document.documentElement;
+    var dark = root.dataset.theme
+      ? root.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('cl-theme', root.dataset.theme); } catch (e) {}
+  });
+</script>
 
 {% block body %}{% endblock %}
 
