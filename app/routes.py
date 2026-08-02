@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse(
-        "index.html", {"request": request, "fixtures": FIXTURES, "mode": service.mode()}
+        request, "index.html", {"fixtures": FIXTURES, "mode": service.mode()}
     )
 
 
@@ -47,9 +47,10 @@ async def audit(
         )
     except ValidationError:
         return templates.TemplateResponse(
+            request,
             "index.html",
             {
-                "request": request, "fixtures": FIXTURES, "mode": service.mode(),
+                "fixtures": FIXTURES, "mode": service.mode(),
                 "error": "Please fill in both your hypothesis and your procedure "
                          "(at least a few words each).",
                 "form": {"hypothesis": hypothesis, "procedure": procedure, "materials": materials},
@@ -74,12 +75,50 @@ async def audit(
 
     template = "safety.html" if result.verdict == "safety_stop" else "result.html"
     return templates.TemplateResponse(
+        request,
         template,
         {
-            "request": request, "r": result, "inp": inp,
+            "r": result, "inp": inp,
             "prereg_text": prereg.as_text(result.prereg) if result.prereg else "",
         },
     )
+
+
+@router.post("/deep-audit")
+async def deep_audit(
+    hypothesis: str = Form(""),
+    procedure: str = Form(""),
+    materials: str = Form(""),
+    time_available: str = Form("unspecified"),
+    budget: str = Form("unspecified"),
+    level: str = Form("high_school"),
+    rule_id: str = Form(""),
+):
+    """Three adversarial lenses in parallel. Never blocks the instant audit."""
+    from . import deep, evidence
+
+    try:
+        inp = ExperimentInput(
+            hypothesis=hypothesis, procedure=procedure, materials=materials,
+            time_available=time_available, budget=budget, level=level,
+        )
+    except ValidationError:
+        return JSONResponse({"available": False, "lenses": [], "evidence": [],
+                             "reason": "Could not re-read the experiment."}, status_code=200)
+
+    # Safety gate applies here too - a blocked plan is not sent anywhere.
+    from .safety import check
+
+    if check(hypothesis, procedure, materials).blocked:
+        return JSONResponse({"available": False, "lenses": [], "evidence": [],
+                             "reason": "This plan was stopped on safety grounds."})
+
+    try:
+        return JSONResponse(await deep.run(inp, evidence.concept_for(rule_id)))
+    except Exception as e:  # noqa: BLE001
+        log.exception("deep audit failed: %s", e)
+        return JSONResponse({"available": False, "lenses": [], "evidence": [],
+                             "reason": "Deep Audit is unavailable right now."})
 
 
 @router.post("/prereg.txt", response_class=PlainTextResponse)

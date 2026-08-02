@@ -97,6 +97,26 @@
 {% endif %}
 
 <!-- ============ secondary ============ -->
+{% if r.verdict != 'safety_stop' %}
+<section class="act" id="deepbox" style="border-left-color: var(--accent)">
+  <h2 style="color:var(--accent)">Deep audit &mdash; optional</h2>
+  <p class="why">Three more passes over the same plan, each attacking it from a different angle
+  &mdash; hidden confounds, whether your instrument can even see the effect, and whether you can
+  actually finish it. Runs in parallel, takes a few seconds.</p>
+  <div class="btnrow"><button type="button" id="deepgo">Run deep audit</button></div>
+  <div id="deepout" style="margin-top:14px"></div>
+</section>
+<form id="deepform" style="display:none">
+  <input type="hidden" name="hypothesis" value="{{ inp.hypothesis }}">
+  <input type="hidden" name="procedure" value="{{ inp.procedure }}">
+  <input type="hidden" name="materials" value="{{ inp.materials }}">
+  <input type="hidden" name="time_available" value="{{ inp.time_available }}">
+  <input type="hidden" name="budget" value="{{ inp.budget }}">
+  <input type="hidden" name="level" value="{{ inp.level }}">
+  <input type="hidden" name="rule_id" value="{{ r.fatal_flaw.id if r.fatal_flaw else '' }}">
+</form>
+{% endif %}
+
 {% if r.other_findings %}
 <details open>
   <summary>{{ r.other_findings | length }} other thing{{ 's' if r.other_findings | length != 1 else '' }} worth fixing</summary>
@@ -148,6 +168,55 @@
 </details>
 
 <script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('deepgo')?.addEventListener('click', async (e) => {
+  const btn = e.target, out = document.getElementById('deepout');
+  btn.disabled = true; btn.textContent = 'Running three passes…';
+  out.innerHTML = '<div class="spin" style="margin:18px auto"></div>';
+  try {
+    const res = await fetch('/deep-audit', {method:'POST', body:new FormData(document.getElementById('deepform'))});
+    const d = await res.json();
+    let h = '';
+    if (!d.available) {
+      h = '<p class="why">' + esc(d.reason || 'Deep audit is unavailable right now.') +
+          ' The result above is complete and unaffected.</p>';
+    } else {
+      for (const L of d.lenses) {
+        h += '<div style="margin-bottom:16px"><div class="t" style="font-weight:650;margin-bottom:5px">'
+           + esc(L.label) + '</div>';
+        if (L.verdict_one_line) h += '<div class="r" style="color:var(--ink-dim);margin-bottom:8px">' + esc(L.verdict_one_line) + '</div>';
+        if (!L.findings || !L.findings.length) {
+          h += '<div class="r" style="color:var(--ink-faint)">Nothing found from this angle.</div>';
+        } else {
+          for (const f of L.findings) {
+            h += '<div class="finding"><div class="t">' + esc(f.title) + '</div>'
+               + '<div class="r">' + esc(f.reason) + '</div>'
+               + '<div class="meta"><span class="chip mdl">model analysis</span>'
+               + '<span class="sev ' + esc(f.severity) + '">' + esc(f.severity) + '</span></div></div>';
+          }
+        }
+        h += '</div>';
+      }
+      if (d.failed) h += '<p class="why" style="color:var(--ink-faint)">' + d.failed + ' of 3 passes did not complete. The rest are shown above.</p>';
+    }
+    if (d.evidence && d.evidence.length) {
+      h += '<div style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px">'
+         + '<span class="lbl" style="display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;font-weight:700">Background reading</span>';
+      for (const c of d.evidence) {
+        h += '<a class="ev" href="' + esc(c.url) + '" target="_blank" rel="noopener nofollow">'
+           + '<div class="t">' + esc(c.title) + '</div>'
+           + '<div class="s">' + esc(c.snippet) + ' — ' + esc(c.origin) + '</div></a>';
+      }
+      h += '</div>';
+    }
+    out.innerHTML = h;
+    btn.textContent = 'Done';
+  } catch {
+    out.innerHTML = '<p class="why">Deep audit could not run. The result above is complete and unaffected.</p>';
+    btn.textContent = 'Run deep audit'; btn.disabled = false;
+  }
+});
+
 document.getElementById('copy')?.addEventListener('click', async (e) => {
   const t = document.getElementById('pt');
   try { await navigator.clipboard.writeText(t.value); }
