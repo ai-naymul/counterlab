@@ -1,0 +1,88 @@
+- generic [ref=f6e2]:
+  - banner [ref=f6e3]:
+    - link "counterlab" [ref=f6e4] [cursor=pointer]:
+      - /url: /
+    - generic [ref=f6e5]: full
+    - button "Switch between light and dark" [active] [ref=f6e6] [cursor=pointer]
+  - heading [level=1] [ref=f6e10]:
+    - text: Your experiment is probably
+    - mark [ref=f6e11]: unanswerable
+    - text: . Find out now.
+  - paragraph [ref=f6e12]: Most science projects don't fail on bad measurement. They fail because the plan could never have answered the question. CounterLab finds the one flaw that does that, tells you the smallest fix, and makes you write down what result would prove you wrong.
+  - generic [ref=f6e13]:
+    - generic [ref=f6e14]: Worked example
+    - paragraph [ref=f6e15]: Hypothesis. A heavier pendulum bob swings faster.
+    - paragraph [ref=f6e16]: Procedure. Compare a 50 g bob on a 30 cm string against a 100 g bob on a 40 cm string. Time one swing each.
+    - paragraph [ref=f6e17]:
+      - text: "Nothing here looks careless. It still can't work: the mass"
+      - emphasis [ref=f6e18]: and
+      - text: the string length both changed, so no stopwatch reading can tell you which one mattered.
+  - generic [ref=f6e19]: Load a case
+  - generic [ref=f6e20]:
+    - button "01 Pendulum the classic confound" [ref=f6e21] [cursor=pointer]:
+      - generic [ref=f6e22]: "01"
+      - generic [ref=f6e23]: Pendulum
+      - generic [ref=f6e24]: the classic confound
+    - button "02 Water filter safety stop" [ref=f6e25] [cursor=pointer]:
+      - generic [ref=f6e26]: "02"
+      - generic [ref=f6e27]: Water filter
+      - generic [ref=f6e28]: safety stop
+    - button "03 Injection test prompt injection" [ref=f6e29] [cursor=pointer]:
+      - generic [ref=f6e30]: "03"
+      - generic [ref=f6e31]: Injection test
+      - generic [ref=f6e32]: prompt injection
+    - button "04 Sound plan should PASS" [ref=f6e33] [cursor=pointer]:
+      - generic [ref=f6e34]: "04"
+      - generic [ref=f6e35]: Sound plan
+      - generic [ref=f6e36]: should PASS
+  - generic [ref=f6e37]:
+    - generic [ref=f6e38]:
+      - generic [ref=f6e39]: Hypothesis what do you think will happen?
+      - textbox "Hypothesis what do you think will happen?" [ref=f6e40]:
+        - /placeholder: A heavier pendulum bob swings faster.
+    - generic [ref=f6e41]:
+      - generic [ref=f6e42]: Procedure exactly what you'll do, with the numbers
+      - textbox "Procedure exactly what you'll do, with the numbers" [ref=f6e43]:
+        - /placeholder: Write it as you'd actually do it. How much of what, and how many times.
+    - generic [ref=f6e44]:
+      - generic [ref=f6e45]: Materials optional
+      - textbox "Materials optional" [ref=f6e46]:
+        - /placeholder: String, two weights, a ruler, my phone.
+    - generic [ref=f6e47]:
+      - generic [ref=f6e48]:
+        - generic [ref=f6e49]: Time you have
+        - combobox "Time you have" [ref=f6e50]:
+          - option "Not sure" [selected]
+          - option "Under an hour"
+          - option "A day"
+          - option "A week"
+          - option "A month or more"
+      - generic [ref=f6e51]:
+        - generic [ref=f6e52]: Budget
+        - combobox "Budget" [ref=f6e53]:
+          - option "Not sure" [selected]
+          - option "Only what I have"
+          - option "Under $10"
+          - option "Under $50"
+      - generic [ref=f6e54]:
+        - generic [ref=f6e55]: Level
+        - combobox "Level" [ref=f6e56]:
+          - option "Middle school"
+          - option "High school" [selected]
+          - option "Intro college"
+    - button "Break my experiment" [ref=f6e57] [cursor=pointer]
+  - contentinfo [ref=f6e58]:
+    - paragraph [ref=f6e59]: CounterLab checks the structure of your reasoning, not your science. Ask a teacher before you run anything.
+    - paragraph [ref=f6e60]:
+      - text: Your text goes to Google's Gemini API. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=f6e61] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so don't type your name, your school, or anything personal. This tool doesn't need it and stores nothing."
+    - paragraph [ref=f6e62]:
+      - text: Built for STEMist Hacks IV ·
+      - link "source" [ref=f6e63] [cursor=pointer]:
+        - /url: https://github.com/ai-naymul/counterlab
+      - text: ·
+      - link "API" [ref=f6e64] [cursor=pointer]:
+        - /url: /api
+      - text: · MIT
