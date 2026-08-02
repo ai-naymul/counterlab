@@ -4,6 +4,14 @@ Video: https://youtu.be/d0JPjF4Lz-w
 
 ---
 
+## 0. Project name
+
+```
+CounterLab
+```
+
+---
+
 ## 1. Elevator pitch (tagline)
 
 ```
