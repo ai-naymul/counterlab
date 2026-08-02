@@ -1,112 +1,143 @@
 {% extends "base.html" %}
-{% block title %}{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw' }} &middot; CounterLab{% endblock %}
+{% set changed = r.audit.variables_changed %}
+{% block title %}{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw' }} · CounterLab{% endblock %}
+
+{% block masttick %}
+  <span class="tick {{ 'warn' if r.degraded_mode else 'on' }} dot">{{ 'rules only' if r.degraded_mode else 'full' }}</span>
+  <span class="tick">confidence {{ '%.0f' | format(r.confidence * 100) }}%</span>
+{% endblock %}
+
 {% block body %}
 
-<a class="backlink" href="/">&larr; Check another experiment</a>
+<a class="back" href="/">&larr; check another experiment</a>
 
-<div class="verdict {{ 'bad' if r.verdict == 'fatal_flaw' else 'good' }}">
-  <span class="tag">{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw detected' }}</span>
-  <span class="spacer"></span>
-  <span class="chip {{ 'warn' if r.degraded_mode else '' }}">{{ 'rules-only' if r.degraded_mode else 'full' }}</span>
-  <span class="chip">confidence {{ '%.0f' | format(r.confidence * 100) }}%</span>
+<div class="verdict rise rise-1 {{ 'bad' if r.verdict == 'fatal_flaw' else 'good' }}">
+  <span class="v">{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw detected' }}</span>
+  <span class="gap"></span>
+  {% if r.fatal_flaw %}
+  <span class="tick {{ 'det' if r.fatal_flaw.source == 'deterministic' else '' }}">
+    {{ 'structural check' if r.fatal_flaw.source == 'deterministic' else 'model analysis' }}</span>
+  {% endif %}
 </div>
 
 {% if r.degraded_mode %}
-<div class="banner"><b>Rules-only mode.</b> {{ r.degraded_reason }}
-  The structural checks below are unaffected &mdash; they don't use a language model at all.</div>
+<div class="notice rise rise-1"><b>Rules only.</b> {{ r.degraded_reason }}
+  The structural checks below don't use a language model, so they're unaffected.</div>
 {% endif %}
 
-<!-- ============ BREAK ============ -->
-<section class="act break">
-  <h2>1 &middot; Break</h2>
+<!-- ============================ BREAK ============================ -->
+<section class="act brk rise rise-2">
+  <h2><span class="step">1</span> Break</h2>
+
   {% if r.fatal_flaw %}
-    <p class="headline">{{ r.fatal_flaw.title }}</p>
-    <p class="why"><strong>Why this makes your result uninterpretable.</strong> {{ r.fatal_flaw.reason }}</p>
-    <div class="finding" style="border:0;padding:6px 0 0">
-      <div class="meta">
-        <span class="chip {{ 'det' if r.fatal_flaw.source == 'deterministic' else 'mdl' }}">
-          {{ 'structural check' if r.fatal_flaw.source == 'deterministic' else 'model analysis' }}</span>
-        <span class="sev fatal">fatal</span>
-      </div>
-    </div>
+    <p class="claim">{{ r.fatal_flaw.title }}</p>
+    <p class="because"><span class="k">Why your result becomes unreadable</span>{{ r.fatal_flaw.reason }}</p>
   {% else %}
-    <p class="headline">Nothing here would stop this experiment from answering its question.</p>
-    <p class="why">Under the assumptions listed further down, the structure holds up: one thing
-    changes, something measurable comes out, and the comparison is fair. That's a real result,
-    not a compliment &mdash; the same checks flag a fatal flaw when one exists.</p>
+    <p class="claim">Nothing here stops this experiment from answering its question.</p>
+    <p class="because"><span class="k">What that means</span>Under the assumptions listed below, the
+    structure holds: one thing changes, something measurable comes out, and the comparison is fair.
+    That's a verdict from the same checks that flag a fatal flaw when one exists, not a compliment.</p>
   {% endif %}
 
-  <div class="vmap">
-    <div class="vrow"><span class="k">You change</span>
-      <span class="v {{ '' if r.audit.independent_variable else 'none' }}">{{ r.audit.independent_variable or 'not identified' }}</span></div>
-    <div class="vrow"><span class="k">You measure</span>
-      <span class="v {{ '' if r.audit.dependent_variable else 'none' }}">{{ r.audit.dependent_variable or 'not identified' }}{% if r.audit.measurement_unit %} <span style="color:var(--ink-faint)">({{ r.audit.measurement_unit }})</span>{% endif %}</span></div>
-    <div class="vrow {{ 'flag' if r.audit.variables_changed | length > 1 else '' }}">
-      <span class="k">Actually differs between setups</span>
-      <span class="v {{ '' if r.audit.variables_changed else 'none' }}">{{ r.audit.variables_changed | join(', ') or 'nothing detected' }}{% if r.audit.variables_changed | length > 1 %} &larr; should be one{% endif %}</span></div>
-    <div class="vrow"><span class="k">You hold constant</span>
-      <span class="v {{ '' if r.audit.controlled_variables else 'none' }}">{{ r.audit.controlled_variables | join(', ') or 'nothing stated' }}</span></div>
-    <div class="vrow"><span class="k">Trials per setup</span>
-      <span class="v {{ '' if r.audit.planned_repetitions else 'none' }}">{{ r.audit.planned_repetitions or 'not stated' }}</span></div>
+  <div class="readout">
+    <div class="rhead">Design readout</div>
+
+    <div class="slot">
+      <span class="k">You change</span>
+      <span class="val {{ '' if r.audit.independent_variable else 'empty' }}">{{ r.audit.independent_variable or 'not identified' }}</span>
+      <span class="tag {{ 'ok' if r.audit.independent_variable else 'bad' }}">{{ 'ok' if r.audit.independent_variable else 'missing' }}</span>
+    </div>
+
+    <div class="slot">
+      <span class="k">You measure</span>
+      <span class="val {{ '' if r.audit.dependent_variable else 'empty' }}">{{ r.audit.dependent_variable or 'not identified' }}</span>
+      <span class="tag {{ 'ok' if r.audit.dependent_variable else 'bad' }}">{{ 'ok' if r.audit.dependent_variable else 'missing' }}</span>
+    </div>
+
+    <div class="slot">
+      <span class="k">Unit</span>
+      <span class="val {{ '' if r.audit.measurement_unit else 'empty' }}">{{ r.audit.measurement_unit or 'none stated' }}</span>
+      <span class="tag {{ 'ok' if r.audit.measurement_unit else 'miss' }}">{{ 'ok' if r.audit.measurement_unit else 'missing' }}</span>
+    </div>
+
+    <div class="slot {{ 'flag' if changed | length > 1 else '' }}">
+      <span class="k">Differs between setups</span>
+      <span class="val {{ '' if changed else 'empty' }}">{{ changed | join(', ') or 'nothing detected' }}</span>
+      <span class="tag {{ 'bad' if changed | length > 1 else ('ok' if changed | length == 1 else 'miss') }}">
+        {% if changed | length > 1 %}{{ changed | length }} changed, want 1
+        {%- elif changed | length == 1 %}ok{% else %}none{% endif %}</span>
+    </div>
+
+    <div class="slot">
+      <span class="k">Held constant</span>
+      <span class="val {{ '' if r.audit.controlled_variables else 'empty' }}">{{ r.audit.controlled_variables | join(', ') or 'nothing stated' }}</span>
+      <span class="tag {{ 'ok' if r.audit.controlled_variables else 'miss' }}">{{ 'ok' if r.audit.controlled_variables else 'none' }}</span>
+    </div>
+
+    <div class="slot">
+      <span class="k">Trials each</span>
+      <span class="val {{ '' if r.audit.planned_repetitions else 'empty' }}">{{ r.audit.planned_repetitions or 'not stated' }}</span>
+      <span class="tag {{ 'ok' if (r.audit.planned_repetitions or 0) >= 3 else 'miss' }}">
+        {%- if (r.audit.planned_repetitions or 0) >= 3 %}ok{% elif r.audit.planned_repetitions %}too few{% else %}missing{% endif %}</span>
+    </div>
   </div>
 </section>
 
-<!-- ============ REPAIR ============ -->
-<section class="act repair">
-  <h2>2 &middot; Repair</h2>
+<!-- ============================ REPAIR ============================ -->
+<section class="act rep rise rise-3">
+  <h2><span class="step">2</span> Repair</h2>
   {% if r.minimal_repairs %}
-    <p class="why">The smallest changes that make your result mean something &mdash; cheapest first.</p>
-    <ol class="repairs">
-      {% for rep in r.minimal_repairs %}<li>{{ rep }}</li>{% endfor %}
-    </ol>
+    <p class="because" style="margin-bottom:14px">Smallest changes that make the result mean something. Cheapest first.</p>
+    <ol class="steps">{% for rep in r.minimal_repairs %}<li>{{ rep }}</li>{% endfor %}</ol>
   {% else %}
-    <p class="why">No changes needed to the structure. Run it as written.</p>
+    <p class="because">No structural change needed. Run it as written.</p>
   {% endif %}
 
   {% if r.cheapest_falsification_test %}
   <div class="falsify">
-    <span class="lbl">Cheapest way to prove yourself wrong</span>
-    {{ r.cheapest_falsification_test }}
+    <span class="k">Cheapest way to prove yourself wrong</span>{{ r.cheapest_falsification_test }}
   </div>
   {% endif %}
 </section>
 
-<!-- ============ COMMIT ============ -->
+<!-- ============================ COMMIT ============================ -->
 {% if r.prereg %}
-<section class="act commit">
-  <h2>3 &middot; Commit</h2>
-  <p class="why">Fill this in <strong>before</strong> you collect any data. Deciding what counts as
-  being wrong after you've seen the numbers is how honest people fool themselves.</p>
+<section class="act com rise rise-4">
+  <h2><span class="step">3</span> Commit</h2>
+  <p class="because" style="margin-bottom:15px">Fill this in <b>before</b> you collect data. Deciding
+  what counts as being wrong after you've seen your numbers is how honest people fool themselves.</p>
 
-  <div class="card-field"><span class="lbl">Measurement</span>{{ r.prereg.measurement_plan }}</div>
-  <div class="card-field"><span class="lbl">Repetitions</span>{{ r.prereg.planned_repetitions }} trials per condition</div>
-  <div class="card-field"><span class="lbl">Stopping rule</span>{{ r.prereg.stopping_rule }}</div>
-  <div class="card-field"><span class="lbl">Analysis rule</span>{{ r.prereg.analysis_rule }}</div>
-
-  <div class="reject">
-    <span class="lbl">I will reject my hypothesis if</span>
-    {{ r.prereg.rejection_condition }}
+  <div class="card">
+    <div class="row"><span class="k">Measure</span><span>{{ r.prereg.measurement_plan }}</span></div>
+    <div class="row"><span class="k">Trials</span><span class="n">{{ r.prereg.planned_repetitions }} per condition</span></div>
+    <div class="row"><span class="k">Stop when</span><span>{{ r.prereg.stopping_rule }}</span></div>
+    <div class="row"><span class="k">Compare by</span><span>{{ r.prereg.analysis_rule }}</span></div>
+    <div class="reject">
+      <span class="k">I will reject my hypothesis if</span>
+      <div class="txt">{{ r.prereg.rejection_condition }}</div>
+    </div>
+    <div class="sign"><span>signed</span><span>date</span></div>
   </div>
 
   <div class="btnrow">
-    <button type="button" id="copy">Copy card</button>
-    <button type="button" onclick="window.print()">Print</button>
+    <button type="button" class="btn" id="copy">Copy card</button>
+    <button type="button" class="btn" onclick="window.print()">Print</button>
   </div>
-  <textarea id="pt" style="position:absolute;left:-9999px" aria-hidden="true">{{ prereg_text }}</textarea>
+  <textarea id="pt" hidden aria-hidden="true">{{ prereg_text }}</textarea>
 </section>
 {% endif %}
 
-<!-- ============ secondary ============ -->
+<!-- ============================ DEEP ============================ -->
 {% if r.verdict != 'safety_stop' %}
-<section class="act" id="deepbox" style="border-left-color: var(--accent)">
-  <h2 style="color:var(--accent)">Deep audit &mdash; optional</h2>
-  <p class="why">Three more passes over the same plan, each attacking it from a different angle
-  &mdash; hidden confounds, whether your instrument can even see the effect, and whether you can
-  actually finish it. Runs in parallel, takes a few seconds.</p>
-  <div class="btnrow"><button type="button" id="deepgo">Run deep audit</button></div>
-  <div id="deepout" style="margin-top:14px"></div>
+<section class="act deep rise rise-5" id="deepbox">
+  <h2><span class="step">4</span> Deep audit</h2>
+  <p class="because" style="margin-bottom:14px">Three more passes in parallel, each attacking from one
+  angle only: hidden confounds, whether your instrument can detect the effect at all, and whether you
+  can realistically finish it. Takes a couple of seconds.</p>
+  <div class="btnrow" style="margin-top:0"><button type="button" class="btn primary" id="deepgo">Run deep audit</button></div>
+  <div id="deepout" style="margin-top:16px"></div>
 </section>
-<form id="deepform" style="display:none">
+<form id="deepform" hidden>
   <input type="hidden" name="hypothesis" value="{{ inp.hypothesis }}">
   <input type="hidden" name="procedure" value="{{ inp.procedure }}">
   <input type="hidden" name="materials" value="{{ inp.materials }}">
@@ -117,112 +148,104 @@
 </form>
 {% endif %}
 
+<!-- ============================ secondary ============================ -->
 {% if r.other_findings %}
 <details open>
   <summary>{{ r.other_findings | length }} other thing{{ 's' if r.other_findings | length != 1 else '' }} worth fixing</summary>
+  <div class="body">
   {% for f in r.other_findings %}
-  <div class="finding">
+  <div class="find">
     <div class="t">{{ f.title }}</div>
     <div class="r">{{ f.reason }}</div>
     <div class="meta">
-      <span class="chip {{ 'det' if f.source == 'deterministic' else 'mdl' }}">{{ 'structural check' if f.source == 'deterministic' else 'model analysis' }}</span>
+      <span class="tick {{ 'det' if f.source == 'deterministic' else '' }}">{{ 'structural check' if f.source == 'deterministic' else 'model analysis' }}</span>
       <span class="sev {{ f.severity }}">{{ f.severity }}</span>
     </div>
   </div>
   {% endfor %}
+  </div>
 </details>
 {% endif %}
 
 {% if r.safety_notes %}
 <details open>
   <summary>Safety notes</summary>
-  <ul>{% for n in r.safety_notes %}<li>{{ n }}</li>{% endfor %}</ul>
-</details>
-{% endif %}
-
-{% if r.evidence_cards %}
-<details>
-  <summary>Background reading ({{ r.evidence_cards | length }})</summary>
-  {% for e in r.evidence_cards %}
-  <a class="ev" href="{{ e.url }}" target="_blank" rel="noopener nofollow">
-    <div class="t">{{ e.title }}</div>
-    <div class="s">{{ e.snippet }} &mdash; {{ e.origin }}</div>
-  </a>
-  {% endfor %}
+  <div class="body"><ul>{% for n in r.safety_notes %}<li>{{ n }}</li>{% endfor %}</ul></div>
 </details>
 {% endif %}
 
 {% if r.audit.alternative_explanations %}
 <details>
   <summary>Other things that could explain your result</summary>
-  <ul>{% for a in r.audit.alternative_explanations %}<li>{{ a }}</li>{% endfor %}</ul>
+  <div class="body"><ul>{% for a in r.audit.alternative_explanations %}<li>{{ a }}</li>{% endfor %}</ul></div>
 </details>
 {% endif %}
 
 <details {{ 'open' if r.assumptions and 'looked like an instruction' in r.assumptions[0] else '' }}>
-  <summary>What CounterLab assumed{% if r.model_used %} &middot; {{ r.model_used }}{% endif %}</summary>
-  <ul>
+  <summary>What CounterLab assumed{% if r.model_used %} · {{ r.model_used }}{% endif %}</summary>
+  <div class="body"><ul>
     {% for a in r.assumptions %}<li>{{ a }}</li>{% endfor %}
     {% if not r.assumptions %}<li>Nothing beyond what you wrote.</li>{% endif %}
-  </ul>
+  </ul></div>
 </details>
 
 <script>
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-document.getElementById('deepgo')?.addEventListener('click', async (e) => {
+
+document.getElementById('copy')?.addEventListener('click', async e => {
+  const t = document.getElementById('pt');
+  try { await navigator.clipboard.writeText(t.value); }
+  catch { t.hidden = false; t.select(); document.execCommand('copy'); t.hidden = true; }
+  e.target.textContent = 'Copied';
+  setTimeout(() => e.target.textContent = 'Copy card', 1600);
+});
+
+document.getElementById('deepgo')?.addEventListener('click', async e => {
   const btn = e.target, out = document.getElementById('deepout');
-  btn.disabled = true; btn.textContent = 'Running three passes…';
-  out.innerHTML = '<div class="spin" style="margin:18px auto"></div>';
+  btn.disabled = true; btn.textContent = 'Running three passes';
+  out.innerHTML = '<div class="bar"><i></i></div>';
   try {
-    const res = await fetch('/deep-audit', {method:'POST', body:new FormData(document.getElementById('deepform'))});
+    const res = await fetch('/deep-audit', {method: 'POST', body: new FormData(document.getElementById('deepform'))});
     const d = await res.json();
     let h = '';
     if (!d.available) {
-      h = '<p class="why">' + esc(d.reason || 'Deep audit is unavailable right now.') +
+      h = '<p class="because">' + esc(d.reason || 'Deep audit is unavailable right now.') +
           ' The result above is complete and unaffected.</p>';
     } else {
-      for (const L of d.lenses) {
-        h += '<div style="margin-bottom:16px"><div class="t" style="font-weight:650;margin-bottom:5px">'
-           + esc(L.label) + '</div>';
-        if (L.verdict_one_line) h += '<div class="r" style="color:var(--ink-dim);margin-bottom:8px">' + esc(L.verdict_one_line) + '</div>';
+      d.lenses.forEach((L, i) => {
+        h += '<div class="lens"><div class="h"><span class="n">' + String(i + 1).padStart(2, '0') +
+             '</span>' + esc(L.label) + '</div>';
+        if (L.verdict_one_line) h += '<div class="sum">' + esc(L.verdict_one_line) + '</div>';
         if (!L.findings || !L.findings.length) {
-          h += '<div class="r" style="color:var(--ink-faint)">Nothing found from this angle.</div>';
+          h += '<div class="sum" style="opacity:.65">Nothing found from this angle.</div>';
         } else {
-          for (const f of L.findings) {
-            h += '<div class="finding"><div class="t">' + esc(f.title) + '</div>'
-               + '<div class="r">' + esc(f.reason) + '</div>'
-               + '<div class="meta"><span class="chip mdl">model analysis</span>'
-               + '<span class="sev ' + esc(f.severity) + '">' + esc(f.severity) + '</span></div></div>';
-          }
+          L.findings.forEach(f => {
+            h += '<div class="find"><div class="t">' + esc(f.title) + '</div>' +
+                 '<div class="r">' + esc(f.reason) + '</div>' +
+                 '<div class="meta"><span class="tick">model analysis</span>' +
+                 '<span class="sev ' + esc(f.severity) + '">' + esc(f.severity) + '</span></div></div>';
+          });
         }
         h += '</div>';
-      }
-      if (d.failed) h += '<p class="why" style="color:var(--ink-faint)">' + d.failed + ' of 3 passes did not complete. The rest are shown above.</p>';
+      });
+      if (d.failed) h += '<p class="sum">' + d.failed + ' of 3 passes did not complete. The rest are above.</p>';
     }
-    if (d.evidence && d.evidence.length) {
-      h += '<div style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px">'
-         + '<span class="lbl" style="display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;font-weight:700">Background reading</span>';
-      for (const c of d.evidence) {
-        h += '<a class="ev" href="' + esc(c.url) + '" target="_blank" rel="noopener nofollow">'
-           + '<div class="t">' + esc(c.title) + '</div>'
-           + '<div class="s">' + esc(c.snippet) + ' — ' + esc(c.origin) + '</div></a>';
-      }
+    if (d.evidence?.length) {
+      h += '<div style="margin-top:16px;border-top:1px solid var(--rule);padding-top:14px">' +
+           '<span class="k">Background reading</span>';
+      d.evidence.forEach(c => {
+        h += '<a class="src" href="' + esc(c.url) + '" target="_blank" rel="noopener nofollow">' +
+             '<div class="t">' + esc(c.title) + '</div><div class="s">' + esc(c.snippet) +
+             ' <span class="o">' + esc(c.origin) + '</span></div></a>';
+      });
       h += '</div>';
     }
     out.innerHTML = h;
-    btn.textContent = 'Done';
+    btn.textContent = 'Done'; btn.classList.remove('primary');
   } catch {
-    out.innerHTML = '<p class="why">Deep audit could not run. The result above is complete and unaffected.</p>';
+    out.innerHTML = '<p class="because">Deep audit could not run. The result above is complete and unaffected.</p>';
     btn.textContent = 'Run deep audit'; btn.disabled = false;
   }
-});
-
-document.getElementById('copy')?.addEventListener('click', async (e) => {
-  const t = document.getElementById('pt');
-  try { await navigator.clipboard.writeText(t.value); }
-  catch { t.style.position='static'; t.select(); document.execCommand('copy'); t.style.position='absolute'; }
-  e.target.textContent = 'Copied';
-  setTimeout(() => e.target.textContent = 'Copy card', 1600);
 });
 </script>
 {% endblock %}

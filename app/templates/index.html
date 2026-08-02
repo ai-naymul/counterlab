@@ -1,51 +1,61 @@
 {% extends "base.html" %}
+
+{% block masttick %}
+  <span class="tick {{ 'warn' if mode == 'rules-only' else 'on' }} dot">{{ mode }}</span>
+{% endblock %}
+
 {% block body %}
 
-<header>
-  <div class="brand"><b>CounterLab</b> <span>&#129514;</span>
-    <span class="chip {{ 'warn' if mode == 'rules-only' else '' }}">{{ mode }}</span>
-  </div>
-  <h1>Red-team your experiment before you run it.</h1>
-  <p class="sub">Most science projects don't fail because the student measured badly. They fail
-  because the plan couldn't have answered the question in the first place. Paste yours and find
-  out now, not at the science fair.</p>
-</header>
+<h1 class="rise rise-1">Your experiment is probably <mark>unanswerable</mark>. Find out now.</h1>
 
-{% if error %}<div class="err">{{ error }}</div>{% endif %}
+<p class="lede rise rise-2">Most science projects don't fail on bad measurement. They fail because the
+plan could never have answered the question. <b>CounterLab finds the one flaw that does that</b>,
+tells you the smallest fix, and makes you write down what result would prove you wrong.</p>
 
-<div class="fixtures">
-  <p>Try one of these &mdash; they load into the form below:</p>
-  <div class="fixrow">
-    {% for key, f in fixtures.items() %}
-    <button type="button" class="fixbtn" data-fx="{{ key }}">
-      {{ f.label }}<small>{{ f.blurb }}</small>
-    </button>
-    {% endfor %}
-  </div>
+<div class="specimen rise rise-3">
+  <div class="stamp">Worked example</div>
+  <p class="q"><b>Hypothesis.</b> A heavier pendulum bob swings faster.</p>
+  <p class="q"><b>Procedure.</b> Compare a 50 g bob on a 30 cm string against a 100 g bob on a 40 cm
+     string. Time one swing each.</p>
+  <p>Nothing here looks careless. It still can't work: the mass <em>and</em> the string length both
+     changed, so no stopwatch reading can tell you which one mattered.</p>
 </div>
 
-<form method="post" action="/audit" id="f">
+{% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+
+<div class="fixhead rise rise-4">Load a case</div>
+<div class="fixrow rise rise-4">
+  {% for key, f in fixtures.items() %}
+  <button type="button" class="fix" data-fx="{{ key }}" aria-pressed="false">
+    <span class="n">{{ "%02d" | format(loop.index) }}</span>
+    <span class="t">{{ f.label }}</span>
+    <span class="d">{{ f.blurb }}</span>
+  </button>
+  {% endfor %}
+</div>
+
+<form method="post" action="/audit" id="f" class="rise rise-5">
   <div class="field">
-    <label for="hypothesis">Your hypothesis <span class="hint">&mdash; what do you think will happen?</span></label>
+    <label for="hypothesis">Hypothesis <span class="hint">what do you think will happen?</span></label>
     <textarea id="hypothesis" name="hypothesis" rows="2" required
       placeholder="A heavier pendulum bob swings faster.">{{ form.hypothesis if form else '' }}</textarea>
   </div>
 
   <div class="field">
-    <label for="procedure">Your procedure <span class="hint">&mdash; exactly what will you do?</span></label>
+    <label for="procedure">Procedure <span class="hint">exactly what you'll do, with the numbers</span></label>
     <textarea id="procedure" name="procedure" rows="7" required
-      placeholder="Write it as you'd actually do it. Include the numbers: how much of what, how many times.">{{ form.procedure if form else '' }}</textarea>
+      placeholder="Write it as you'd actually do it. How much of what, and how many times.">{{ form.procedure if form else '' }}</textarea>
   </div>
 
   <div class="field">
-    <label for="materials">Materials you have <span class="hint">&mdash; optional</span></label>
+    <label for="materials">Materials <span class="hint">optional</span></label>
     <textarea id="materials" name="materials" rows="2"
       placeholder="String, two weights, a ruler, my phone.">{{ form.materials if form else '' }}</textarea>
   </div>
 
-  <div class="row">
+  <div class="grid3">
     <div class="field">
-      <label for="time_available">Time</label>
+      <label for="time_available">Time you have</label>
       <select id="time_available" name="time_available">
         <option value="unspecified">Not sure</option>
         <option value="&lt;1 hour">Under an hour</option>
@@ -58,7 +68,7 @@
       <label for="budget">Budget</label>
       <select id="budget" name="budget">
         <option value="unspecified">Not sure</option>
-        <option value="none">Nothing &mdash; only what I have</option>
+        <option value="none">Only what I have</option>
         <option value="&lt;$10">Under $10</option>
         <option value="&lt;$50">Under $50</option>
       </select>
@@ -76,33 +86,35 @@
   <button class="go" type="submit" id="go">Break my experiment</button>
 </form>
 
-<div id="load"><div class="box">
-  <div class="spin"></div>
-  <div class="stage" id="stage">Reading your procedure&hellip;</div>
-</div></div>
+<div id="load" role="status" aria-live="polite">
+  <div class="box">
+    <div class="bar"><i></i></div>
+    <div id="stage">Reading your procedure</div>
+  </div>
+</div>
 
 <script>
 const FX = {{ fixtures | tojson }};
-document.querySelectorAll('.fixbtn').forEach(b => b.addEventListener('click', () => {
+const $ = s => document.querySelector(s);
+
+document.querySelectorAll('.fix').forEach(b => b.addEventListener('click', () => {
   const f = FX[b.dataset.fx];
-  document.getElementById('hypothesis').value = f.hypothesis;
-  document.getElementById('procedure').value = f.procedure;
-  document.getElementById('materials').value = f.materials;
-  document.getElementById('time_available').value = f.time_available;
-  document.getElementById('budget').value = f.budget;
-  document.getElementById('level').value = f.level;
-  document.getElementById('hypothesis').scrollIntoView({behavior:'smooth', block:'center'});
+  document.querySelectorAll('.fix').forEach(o => o.setAttribute('aria-pressed', o === b));
+  for (const [k, v] of Object.entries({hypothesis: f.hypothesis, procedure: f.procedure,
+      materials: f.materials, time_available: f.time_available, budget: f.budget, level: f.level})) {
+    $('#' + k).value = v;
+  }
+  $('#hypothesis').scrollIntoView({behavior: 'smooth', block: 'center'});
 }));
 
-const STAGES = ["Reading your procedure…","Pulling out your variables…",
-                "Checking what changes between setups…","Looking for confounds…",
-                "Ranking by how badly it breaks the result…"];
-document.getElementById('f').addEventListener('submit', () => {
-  document.getElementById('go').disabled = true;
-  document.getElementById('load').classList.add('on');
+const STAGES = ["Reading your procedure", "Pulling out your variables",
+                "Checking what differs between setups", "Hunting for confounds",
+                "Ranking by how badly it breaks the result"];
+$('#f').addEventListener('submit', () => {
+  $('#go').disabled = true;
+  $('#load').classList.add('on');
   let i = 0;
-  setInterval(() => { i = (i+1) % STAGES.length;
-    document.getElementById('stage').textContent = STAGES[i]; }, 1600);
+  setInterval(() => { i = (i + 1) % STAGES.length; $('#stage').textContent = STAGES[i]; }, 1500);
 });
 </script>
 {% endblock %}

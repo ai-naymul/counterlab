@@ -21,7 +21,8 @@ def form(key: str) -> dict:
 def test_index_renders():
     r = client.get("/")
     assert r.status_code == 200
-    assert "Red-team your experiment" in r.text
+    assert "unanswerable" in r.text          # the H1 thesis
+    assert "Break my experiment" in r.text   # the primary action
 
 
 def test_healthz():
@@ -58,7 +59,7 @@ def test_valid_plan_html_says_no_fatal_flaw():
 def test_filter_renders_the_safety_page():
     r = client.post("/audit", data=form("filter"))
     assert "Safety stop" in r.text
-    assert "What you can do instead" in r.text
+    assert "Do this instead" in r.text
 
 
 def test_provenance_chips_are_shown():
