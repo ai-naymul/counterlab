@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw' }} &middot; CounterLab{% endblock %}
+{% block body %}
+
+<a class="backlink" href="/">&larr; Check another experiment</a>
+
+<div class="verdict {{ 'bad' if r.verdict == 'fatal_flaw' else 'good' }}">
+  <span class="tag">{{ 'Fatal flaw found' if r.verdict == 'fatal_flaw' else 'No fatal flaw detected' }}</span>
+  <span class="spacer"></span>
+  <span class="chip {{ 'warn' if r.degraded_mode else '' }}">{{ 'rules-only' if r.degraded_mode else 'full' }}</span>
+  <span class="chip">confidence {{ '%.0f' | format(r.confidence * 100) }}%</span>
+</div>
+
+{% if r.degraded_mode %}
+<div class="banner"><b>Rules-only mode.</b> {{ r.degraded_reason }}
+  The structural checks below are unaffected &mdash; they don't use a language model at all.</div>
+{% endif %}
+
+<!-- ============ BREAK ============ -->
+<section class="act break">
+  <h2>1 &middot; Break</h2>
+  {% if r.fatal_flaw %}
+    <p class="headline">{{ r.fatal_flaw.title }}</p>
+    <p class="why"><strong>Why this makes your result uninterpretable.</strong> {{ r.fatal_flaw.reason }}</p>
+    <div class="finding" style="border:0;padding:6px 0 0">
+      <div class="meta">
+        <span class="chip {{ 'det' if r.fatal_flaw.source == 'deterministic' else 'mdl' }}">
+          {{ 'structural check' if r.fatal_flaw.source == 'deterministic' else 'model analysis' }}</span>
+        <span class="sev fatal">fatal</span>
+      </div>
+    </div>
+  {% else %}
+    <p class="headline">Nothing here would stop this experiment from answering its question.</p>
+    <p class="why">Under the assumptions listed further down, the structure holds up: one thing
+    changes, something measurable comes out, and the comparison is fair. That's a real result,
+    not a compliment &mdash; the same checks flag a fatal flaw when one exists.</p>
+  {% endif %}
+
+  <div class="vmap">
+    <div class="vrow"><span class="k">You change</span>
+      <span class="v {{ '' if r.audit.independent_variable else 'none' }}">{{ r.audit.independent_variable or 'not identified' }}</span></div>
+    <div class="vrow"><span class="k">You measure</span>
+      <span class="v {{ '' if r.audit.dependent_variable else 'none' }}">{{ r.audit.dependent_variable or 'not identified' }}{% if r.audit.measurement_unit %} <span style="color:var(--ink-faint)">({{ r.audit.measurement_unit }})</span>{% endif %}</span></div>
+    <div class="vrow {{ 'flag' if r.audit.variables_changed | length > 1 else '' }}">
+      <span class="k">Actually differs between setups</span>
+      <span class="v {{ '' if r.audit.variables_changed else 'none' }}">{{ r.audit.variables_changed | join(', ') or 'nothing detected' }}{% if r.audit.variables_changed | length > 1 %} &larr; should be one{% endif %}</span></div>
+    <div class="vrow"><span class="k">You hold constant</span>
+      <span class="v {{ '' if r.audit.controlled_variables else 'none' }}">{{ r.audit.controlled_variables | join(', ') or 'nothing stated' }}</span></div>
+    <div class="vrow"><span class="k">Trials per setup</span>
+      <span class="v {{ '' if r.audit.planned_repetitions else 'none' }}">{{ r.audit.planned_repetitions or 'not stated' }}</span></div>
+  </div>
+</section>
+
+<!-- ============ REPAIR ============ -->
+<section class="act repair">
+  <h2>2 &middot; Repair</h2>
+  {% if r.minimal_repairs %}
+    <p class="why">The smallest changes that make your result mean something &mdash; cheapest first.</p>
+    <ol class="repairs">
+      {% for rep in r.minimal_repairs %}<li>{{ rep }}</li>{% endfor %}
+    </ol>
+  {% else %}
+    <p class="why">No changes needed to the structure. Run it as written.</p>
+  {% endif %}
+
+  {% if r.cheapest_falsification_test %}
+  <div class="falsify">
+    <span class="lbl">Cheapest way to prove yourself wrong</span>
+    {{ r.cheapest_falsification_test }}
+  </div>
+  {% endif %}
+</section>
+
+<!-- ============ COMMIT ============ -->
+{% if r.prereg %}
+<section class="act commit">
+  <h2>3 &middot; Commit</h2>
+  <p class="why">Fill this in <strong>before</strong> you collect any data. Deciding what counts as
+  being wrong after you've seen the numbers is how honest people fool themselves.</p>
+
+  <div class="card-field"><span class="lbl">Measurement</span>{{ r.prereg.measurement_plan }}</div>
+  <div class="card-field"><span class="lbl">Repetitions</span>{{ r.prereg.planned_repetitions }} trials per condition</div>
+  <div class="card-field"><span class="lbl">Stopping rule</span>{{ r.prereg.stopping_rule }}</div>
+  <div class="card-field"><span class="lbl">Analysis rule</span>{{ r.prereg.analysis_rule }}</div>
+
+  <div class="reject">
+    <span class="lbl">I will reject my hypothesis if</span>
+    {{ r.prereg.rejection_condition }}
+  </div>
+
+  <div class="btnrow">
+    <button type="button" id="copy">Copy card</button>
+    <button type="button" onclick="window.print()">Print</button>
+  </div>
+  <textarea id="pt" style="position:absolute;left:-9999px" aria-hidden="true">{{ prereg_text }}</textarea>
+</section>
+{% endif %}
+
+<!-- ============ secondary ============ -->
+{% if r.other_findings %}
+<details open>
+  <summary>{{ r.other_findings | length }} other thing{{ 's' if r.other_findings | length != 1 else '' }} worth fixing</summary>
+  {% for f in r.other_findings %}
+  <div class="finding">
+    <div class="t">{{ f.title }}</div>
+    <div class="r">{{ f.reason }}</div>
+    <div class="meta">
+      <span class="chip {{ 'det' if f.source == 'deterministic' else 'mdl' }}">{{ 'structural check' if f.source == 'deterministic' else 'model analysis' }}</span>
+      <span class="sev {{ f.severity }}">{{ f.severity }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</details>
+{% endif %}
+
+{% if r.safety_notes %}
+<details open>
+  <summary>Safety notes</summary>
+  <ul>{% for n in r.safety_notes %}<li>{{ n }}</li>{% endfor %}</ul>
+</details>
+{% endif %}
+
+{% if r.evidence_cards %}
+<details>
+  <summary>Background reading ({{ r.evidence_cards | length }})</summary>
+  {% for e in r.evidence_cards %}
+  <a class="ev" href="{{ e.url }}" target="_blank" rel="noopener nofollow">
+    <div class="t">{{ e.title }}</div>
+    <div class="s">{{ e.snippet }} &mdash; {{ e.origin }}</div>
+  </a>
+  {% endfor %}
+</details>
+{% endif %}
+
+{% if r.audit.alternative_explanations %}
+<details>
+  <summary>Other things that could explain your result</summary>
+  <ul>{% for a in r.audit.alternative_explanations %}<li>{{ a }}</li>{% endfor %}</ul>
+</details>
+{% endif %}
+
+<details {{ 'open' if r.assumptions and 'looked like an instruction' in r.assumptions[0] else '' }}>
+  <summary>What CounterLab assumed{% if r.model_used %} &middot; {{ r.model_used }}{% endif %}</summary>
+  <ul>
+    {% for a in r.assumptions %}<li>{{ a }}</li>{% endfor %}
+    {% if not r.assumptions %}<li>Nothing beyond what you wrote.</li>{% endif %}
+  </ul>
+</details>
+
+<script>
+document.getElementById('copy')?.addEventListener('click', async (e) => {
+  const t = document.getElementById('pt');
+  try { await navigator.clipboard.writeText(t.value); }
+  catch { t.style.position='static'; t.select(); document.execCommand('copy'); t.style.position='absolute'; }
+  e.target.textContent = 'Copied';
+  setTimeout(() => e.target.textContent = 'Copy card', 1600);
+});
+</script>
+{% endblock %}

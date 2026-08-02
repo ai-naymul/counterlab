@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Safety stop &middot; CounterLab{% endblock %}
+{% block body %}
+
+<a class="backlink" href="/">&larr; Check another experiment</a>
+
+<div class="verdict stop">
+  <span class="tag">Safety stop</span>
+  <span class="spacer"></span>
+  <span class="chip det">structural check</span>
+</div>
+
+<section class="act repair">
+  <h2>Why this one stops here</h2>
+  {% for n in r.safety_notes %}
+  <p class="headline" style="font-size:19px">{{ n }}</p>
+  {% endfor %}
+  <p class="why">CounterLab won't help design this version, and it won't give you a procedure for
+  it. That isn't a judgement about you &mdash; it's that no result from this experiment would be
+  worth the risk of getting it wrong.</p>
+</section>
+
+{% if r.safe_alternative %}
+<section class="act commit">
+  <h2>What you can do instead</h2>
+  <p class="why">This keeps the interesting part of your question and drops the dangerous part.</p>
+  <p style="margin:0">{{ r.safe_alternative }}</p>
+  <div class="btnrow">
+    <a class="backlink" style="margin:0" href="/">Rewrite my plan and check it again &rarr;</a>
+  </div>
+</section>
+{% endif %}
+
+<details open>
+  <summary>Talk to someone before you go further</summary>
+  <ul>
+    <li>Show the original idea to a science teacher &mdash; they can often suggest a safe version
+        you'd never think of.</li>
+    <li>If this is for a science fair, most fairs have a safety review form. Fill it in early,
+        not the week before.</li>
+  </ul>
+</details>
+
+{% endblock %}

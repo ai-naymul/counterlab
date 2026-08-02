@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block body %}
+
+<header>
+  <div class="brand"><b>CounterLab</b> <span>&#129514;</span>
+    <span class="chip {{ 'warn' if mode == 'rules-only' else '' }}">{{ mode }}</span>
+  </div>
+  <h1>Red-team your experiment before you run it.</h1>
+  <p class="sub">Most science projects don't fail because the student measured badly. They fail
+  because the plan couldn't have answered the question in the first place. Paste yours and find
+  out now, not at the science fair.</p>
+</header>
+
+{% if error %}<div class="err">{{ error }}</div>{% endif %}
+
+<div class="fixtures">
+  <p>Try one of these &mdash; they load into the form below:</p>
+  <div class="fixrow">
+    {% for key, f in fixtures.items() %}
+    <button type="button" class="fixbtn" data-fx="{{ key }}">
+      {{ f.label }}<small>{{ f.blurb }}</small>
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<form method="post" action="/audit" id="f">
+  <div class="field">
+    <label for="hypothesis">Your hypothesis <span class="hint">&mdash; what do you think will happen?</span></label>
+    <textarea id="hypothesis" name="hypothesis" rows="2" required
+      placeholder="A heavier pendulum bob swings faster.">{{ form.hypothesis if form else '' }}</textarea>
+  </div>
+
+  <div class="field">
+    <label for="procedure">Your procedure <span class="hint">&mdash; exactly what will you do?</span></label>
+    <textarea id="procedure" name="procedure" rows="7" required
+      placeholder="Write it as you'd actually do it. Include the numbers: how much of what, how many times.">{{ form.procedure if form else '' }}</textarea>
+  </div>
+
+  <div class="field">
+    <label for="materials">Materials you have <span class="hint">&mdash; optional</span></label>
+    <textarea id="materials" name="materials" rows="2"
+      placeholder="String, two weights, a ruler, my phone.">{{ form.materials if form else '' }}</textarea>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="time_available">Time</label>
+      <select id="time_available" name="time_available">
+        <option value="unspecified">Not sure</option>
+        <option value="&lt;1 hour">Under an hour</option>
+        <option value="1 day">A day</option>
+        <option value="1 week">A week</option>
+        <option value="1 month+">A month or more</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="budget">Budget</label>
+      <select id="budget" name="budget">
+        <option value="unspecified">Not sure</option>
+        <option value="none">Nothing &mdash; only what I have</option>
+        <option value="&lt;$10">Under $10</option>
+        <option value="&lt;$50">Under $50</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="level">Level</label>
+      <select id="level" name="level">
+        <option value="middle_school">Middle school</option>
+        <option value="high_school" selected>High school</option>
+        <option value="intro_college">Intro college</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="go" type="submit" id="go">Break my experiment</button>
+</form>
+
+<div id="load"><div class="box">
+  <div class="spin"></div>
+  <div class="stage" id="stage">Reading your procedure&hellip;</div>
+</div></div>
+
+<script>
+const FX = {{ fixtures | tojson }};
+document.querySelectorAll('.fixbtn').forEach(b => b.addEventListener('click', () => {
+  const f = FX[b.dataset.fx];
+  document.getElementById('hypothesis').value = f.hypothesis;
+  document.getElementById('procedure').value = f.procedure;
+  document.getElementById('materials').value = f.materials;
+  document.getElementById('time_available').value = f.time_available;
+  document.getElementById('budget').value = f.budget;
+  document.getElementById('level').value = f.level;
+  document.getElementById('hypothesis').scrollIntoView({behavior:'smooth', block:'center'});
+}));
+
+const STAGES = ["Reading your procedure…","Pulling out your variables…",
+                "Checking what changes between setups…","Looking for confounds…",
+                "Ranking by how badly it breaks the result…"];
+document.getElementById('f').addEventListener('submit', () => {
+  document.getElementById('go').disabled = true;
+  document.getElementById('load').classList.add('on');
+  let i = 0;
+  setInterval(() => { i = (i+1) % STAGES.length;
+    document.getElementById('stage').textContent = STAGES[i]; }, 1600);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}CounterLab{% endblock %}</title>
+<meta name="description" content="Red-team your experiment before you run it. CounterLab finds the flaw most likely to make your science-fair result meaningless.">
+<link rel="stylesheet" href="/static/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>&#129514;</text></svg>">
+</head>
+<body>
+<div class="wrap">
+{% block body %}{% endblock %}
+
+<footer>
+  <p><strong>CounterLab checks the structure of your reasoning. It cannot check your science.</strong>
+     Ask a teacher before you run anything.</p>
+  <p>Your text is sent to Google's Gemini API for analysis. Google is
+     <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">reported to use free-tier
+     inputs and outputs to improve its models</a>, so please don't type your name, your school, or anything
+     personal &mdash; this tool doesn't need it. CounterLab itself stores nothing.</p>
+  <p>Built for STEMist Hacks IV &middot; <a href="/api">API</a> &middot; open source, MIT</p>
+</footer>
+</div>
+</body>
+</html>
