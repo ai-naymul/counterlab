@@ -1,5 +1,23 @@
 # CounterLab — Atomic TODO
 
+> ## ✅ BUILD COMPLETE — 22:50 GMT+6, 5h40m before the deadline
+> **Live:** https://counterlab.onrender.com · **Repo:** https://github.com/ai-naymul/counterlab
+> **95 tests pass with `GEMINI_API_KEY` unset.** Deployed, visually verified desktop + mobile, zero console errors, no secret in any commit.
+>
+> | Gate | Target | Actual | |
+> |---|---|---|---|
+> | G0 compliance + repo | 21:20 | 21:25 | ✅ |
+> | G1 vertical slice, zero LLM | 22:15 | **21:55** | ✅ 20 min early |
+> | G4a deployed | 22:45 | 22:32 | ✅ (2 build failures on Python 3.14) |
+> | G2 live model | 23:40 | **22:08** | ✅ |
+> | G3 reliability + tests | 00:35 | **22:25** | ✅ |
+> | G5 Render Workflow | 01:45 | 22:50 | ❌ **abandoned — HTTP 402, card required** |
+>
+> **Changes from plan:** Render Workflows dropped on the free-only rule (the abandon condition fired exactly as written); Deep Audit moved in-process and still ships. Tavily dropped for keyless Wikipedia + OpenAlex. Evidence kept out of the instant path to protect the ~4 s latency. Bangla cut. Editable-assumptions cut.
+>
+> **Remaining, and only Naymul can do these:** record the video (`docs/demo_script.md`), upload it, submit on Devpost (`docs/devpost_submission.md`).
+
+
 **All tasks NOT STARTED. No implementation until `GO: EXECUTE APPROVED PLAN`.**
 Ordered by dependency and critical path. Times are GMT+6 wall-clock targets from `PLAN.md §34`.
 Estimates total ≈ 5 h 10 m of build against 5 h 10 m of pre-freeze wall-clock — there is **no slack inside the build**; the slack is the 2 h 15 m submission buffer. Every optional task has a cut rule.
