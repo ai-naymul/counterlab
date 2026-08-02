@@ -26,7 +26,7 @@
 {% endif %}
 
 <!-- ============================ BREAK ============================ -->
-<section class="act brk rise rise-2">
+<section class="act brk rise rise-2 {{ 'ok' if r.verdict == 'pass' else '' }}">
   <h2><span class="step">1</span> Break</h2>
 
   {% if r.fatal_flaw %}

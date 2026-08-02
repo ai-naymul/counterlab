@@ -284,6 +284,9 @@ textarea:focus, select:focus { border-color: var(--link); }
 .act > h2::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
 .act.brk    { border-top: 2px solid var(--break); }
 .act.brk    > h2 { color: var(--break); }  .act.brk    > h2 .step { background: var(--break); }
+/* On a pass there is nothing broken, so the alarm colour would be lying. */
+.act.brk.ok { border-top-color: var(--pass); }
+.act.brk.ok > h2 { color: var(--pass); }   .act.brk.ok > h2 .step { background: var(--pass); }
 .act.rep    { border-top: 2px solid var(--repair); }
 .act.rep    > h2 { color: var(--repair); } .act.rep    > h2 .step { background: var(--repair); }
 .act.com    { border-top: 2px solid var(--commit); }

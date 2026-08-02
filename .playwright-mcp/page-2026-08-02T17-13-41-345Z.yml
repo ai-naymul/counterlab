@@ -1,0 +1,123 @@
+- generic [ref=f11e2]:
+  - banner [ref=f11e3]:
+    - link "counterlab" [ref=f11e4] [cursor=pointer]:
+      - /url: /
+    - generic [ref=f11e5]: full
+    - generic [ref=f11e6]: confidence 100%
+    - button "Switch between light and dark" [ref=f11e7] [cursor=pointer]
+  - link "← check another experiment" [ref=f11e10] [cursor=pointer]:
+    - /url: /
+  - generic [ref=f11e11]: No fatal flaw detected
+  - generic [ref=f11e13]:
+    - heading "1 Break" [level=2] [ref=f11e14]:
+      - generic [ref=f11e15]: "1"
+      - text: Break
+    - paragraph [ref=f11e16]: Nothing here stops this experiment from answering its question.
+    - paragraph [ref=f11e17]:
+      - generic [ref=f11e18]: What that means
+      - text: "Under the assumptions listed below, the structure holds: one thing changes, something measurable comes out, and the comparison is fair. That's a verdict from the same checks that flag a fatal flaw when one exists, not a compliment."
+    - generic [ref=f11e19]:
+      - generic [ref=f11e20]: Design readout
+      - generic [ref=f11e21]:
+        - generic [ref=f11e22]: You change
+        - generic [ref=f11e23]: drop height
+        - generic [ref=f11e24]: ok
+      - generic [ref=f11e25]:
+        - generic [ref=f11e26]: You measure
+        - generic [ref=f11e27]: height of the first bounce
+        - generic [ref=f11e28]: ok
+      - generic [ref=f11e29]:
+        - generic [ref=f11e30]: Unit
+        - generic [ref=f11e31]: cm
+        - generic [ref=f11e32]: ok
+      - generic [ref=f11e33]:
+        - generic [ref=f11e34]: Differs between setups
+        - generic [ref=f11e35]: drop height
+        - generic [ref=f11e36]: ok
+      - generic [ref=f11e37]:
+        - generic [ref=f11e38]: Held constant
+        - generic [ref=f11e39]: tennis ball, floor surface, room temperature, release method
+        - generic [ref=f11e40]: ok
+      - generic [ref=f11e41]:
+        - generic [ref=f11e42]: Trials each
+        - generic [ref=f11e43]: "5"
+        - generic [ref=f11e44]: ok
+  - generic [ref=f11e45]:
+    - heading "2 Repair" [level=2] [ref=f11e46]:
+      - generic [ref=f11e47]: "2"
+      - text: Repair
+    - paragraph [ref=f11e48]: Smallest changes that make the result mean something. Cheapest first.
+    - list [ref=f11e49]:
+      - listitem [ref=f11e50]: Use a tripod or stack books to keep your phone at the exact same height as the bounce peak.
+      - listitem [ref=f11e51]: Use a spirit level app on your phone to ensure the camera is perfectly horizontal.
+      - listitem [ref=f11e52]: Create a simple cardboard tube to drop the ball through so it falls straight without spin.
+    - generic [ref=f11e53]:
+      - generic [ref=f11e54]: Cheapest way to prove yourself wrong
+      - text: Drop the ball from a very low height (e.g., 10 cm) and a very high height (e.g., 200 cm) to see if the relationship remains linear or if the ball starts behaving differently.
+  - generic [ref=f11e55]:
+    - heading "3 Commit" [level=2] [ref=f11e56]:
+      - generic [ref=f11e57]: "3"
+      - text: Commit
+    - paragraph [ref=f11e58]: Fill this in before you collect data. Deciding what counts as being wrong after you've seen your numbers is how honest people fool themselves.
+    - generic [ref=f11e59]:
+      - generic [ref=f11e60]:
+        - generic [ref=f11e61]: Measure
+        - generic [ref=f11e62]: "Measure height of the first bounce in cm, by: filming the drop against a metre rule and measuring the peak of the first bounce from the video."
+      - generic [ref=f11e63]:
+        - generic [ref=f11e64]: Trials
+        - generic [ref=f11e65]: 5 per condition
+      - generic [ref=f11e66]:
+        - generic [ref=f11e67]: Stop when
+        - generic [ref=f11e68]: I will stop collecting data after completing 5 trials for each of the 3 specified heights.
+      - generic [ref=f11e69]:
+        - generic [ref=f11e70]: Compare by
+        - generic [ref=f11e71]: I will calculate the mean bounce height for each drop height and plot them on a line graph to see if there is a clear upward trend.
+      - generic [ref=f11e72]:
+        - generic [ref=f11e73]: I will reject my hypothesis if
+        - generic [ref=f11e74]: the average bounce height for the 150 cm drop is lower than or equal to the average bounce height for the 100 cm drop.
+      - generic [ref=f11e75]:
+        - generic [ref=f11e76]: signed
+        - generic [ref=f11e77]: date
+    - generic [ref=f11e78]:
+      - button "Copy card" [ref=f11e79] [cursor=pointer]
+      - button "Print" [ref=f11e80] [cursor=pointer]
+  - generic [ref=f11e81]:
+    - heading "4 Deep audit" [level=2] [ref=f11e82]:
+      - generic [ref=f11e83]: "4"
+      - text: Deep audit
+    - paragraph [ref=f11e84]: "Three more passes in parallel, each attacking from one angle only: hidden confounds, whether your instrument can detect the effect at all, and whether you can realistically finish it. Takes a couple of seconds."
+    - button "Run deep audit" [ref=f11e86] [cursor=pointer]
+  - group [ref=f11e87]:
+    - generic "− 2 other things worth fixing" [ref=f11e88] [cursor=pointer]
+    - generic [ref=f11e89]:
+      - generic [ref=f11e90]:
+        - generic [ref=f11e91]: The camera angle might make your measurements inaccurate.
+        - generic [ref=f11e92]: If the camera is not perfectly level with the bounce height, the perspective will distort the distance on the metre rule, making your measurements inconsistent.
+        - generic [ref=f11e93]:
+          - generic [ref=f11e94]: model analysis
+          - generic [ref=f11e95]: major
+      - generic [ref=f11e96]:
+        - generic [ref=f11e97]: You have not accounted for the ball's spin.
+        - generic [ref=f11e98]: If the ball is released with even a tiny amount of spin, it will bounce differently than a ball dropped perfectly straight, adding random error to your results.
+        - generic [ref=f11e99]:
+          - generic [ref=f11e100]: model analysis
+          - generic [ref=f11e101]: minor
+  - group [ref=f11e102]:
+    - generic "+ Other things that could explain your result" [ref=f11e103] [cursor=pointer]
+  - group [ref=f11e104]:
+    - generic "+ What CounterLab assumed · gemini-3.1-flash-lite + gemini-3.1-flash-lite" [ref=f11e105] [cursor=pointer]
+  - contentinfo [ref=f11e106]:
+    - paragraph [ref=f11e107]: CounterLab checks the structure of your reasoning, not your science. Ask a teacher before you run anything.
+    - paragraph [ref=f11e108]:
+      - text: Your text goes to Google's Gemini API. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=f11e109] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so don't type your name, your school, or anything personal. This tool doesn't need it and stores nothing."
+    - paragraph [ref=f11e110]:
+      - text: Built for STEMist Hacks IV ·
+      - link "source" [ref=f11e111] [cursor=pointer]:
+        - /url: https://github.com/ai-naymul/counterlab
+      - text: ·
+      - link "API" [ref=f11e112] [cursor=pointer]:
+        - /url: /api
+      - text: · MIT

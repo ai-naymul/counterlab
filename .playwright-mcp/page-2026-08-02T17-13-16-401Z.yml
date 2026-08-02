@@ -1,0 +1,45 @@
+- generic [ref=f9e2]:
+  - banner [ref=f9e3]:
+    - link "counterlab" [ref=f9e4] [cursor=pointer]:
+      - /url: /
+    - generic [ref=f9e5]: structural check
+    - button "Switch between light and dark" [ref=f9e6] [cursor=pointer]
+  - link "← check another experiment" [ref=f9e9] [cursor=pointer]:
+    - /url: /
+  - generic [ref=f9e10]:
+    - generic [ref=f9e11]: Safety stop
+    - generic [ref=f9e12]: no analysis run
+  - generic [ref=f9e13]:
+    - heading "! Why this one stops here" [level=2] [ref=f9e14]:
+      - generic [ref=f9e15]: "!"
+      - text: Why this one stops here
+    - paragraph [ref=f9e16]: This plan involves judging whether treated water is safe to drink. Water can look completely clear and still carry bacteria, viruses, and dissolved contaminants that cause serious illness. Clarity is not safety, and no home filter test can establish that water is potable.
+    - paragraph [ref=f9e17]: CounterLab won't help design this version and won't give you a procedure for it. That isn't a judgement about you. No result from this experiment would be worth the cost of getting it wrong.
+  - generic [ref=f9e18]:
+    - heading "→ Do this instead" [level=2] [ref=f9e19]:
+      - generic [ref=f9e20]: →
+      - text: Do this instead
+    - paragraph [ref=f9e21]: Keeps the interesting part of your question. Drops the dangerous part.
+    - paragraph [ref=f9e22]: Test turbidity only, and never drink any of it. Make your own muddy water from clean tap water and garden soil, pour a fixed volume through each filter, and measure how clear the output is - either by timing how long a light takes to become visible through a fixed depth, or by photographing each sample against a printed grid and comparing. You are measuring clarity, and you say so on your board.
+    - link "Rewrite my plan and check it again" [ref=f9e24] [cursor=pointer]:
+      - /url: /
+  - group [ref=f9e25]:
+    - generic "− Talk to someone before you go further" [ref=f9e26] [cursor=pointer]
+    - list [ref=f9e28]:
+      - listitem [ref=f9e29]: Show the original idea to a science teacher. They can usually suggest a safe version you wouldn't have thought of.
+      - listitem [ref=f9e30]: If this is for a science fair, there's almost certainly a safety review form. Fill it in early, not the week before.
+  - contentinfo [ref=f9e31]:
+    - paragraph [ref=f9e32]: CounterLab checks the structure of your reasoning, not your science. Ask a teacher before you run anything.
+    - paragraph [ref=f9e33]:
+      - text: Your text goes to Google's Gemini API. Google is
+      - link "reported to use free-tier inputs and outputs to improve its models" [ref=f9e34] [cursor=pointer]:
+        - /url: https://ai.google.dev/gemini-api/terms
+      - text: ", so don't type your name, your school, or anything personal. This tool doesn't need it and stores nothing."
+    - paragraph [ref=f9e35]:
+      - text: Built for STEMist Hacks IV ·
+      - link "source" [ref=f9e36] [cursor=pointer]:
+        - /url: https://github.com/ai-naymul/counterlab
+      - text: ·
+      - link "API" [ref=f9e37] [cursor=pointer]:
+        - /url: /api
+      - text: · MIT
